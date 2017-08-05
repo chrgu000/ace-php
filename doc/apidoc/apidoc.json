@@ -1,0 +1,11 @@
+{
+    "name": "益跑益行 API文档",
+    "version": "0.1.0",
+    "description": "益跑益行 API Service",
+    "url" : "/v1",
+    "title": "益跑益行项目API文档",
+    "header": {
+        "title": "General",
+        "filename": "header.md"
+    }
+}
