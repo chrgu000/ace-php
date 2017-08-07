@@ -5,7 +5,7 @@
                     <table align="center" border="0" cellpadding="0" cellspacing="0" width="700" style="border-collapse: collapse;">
                         <tbody><tr>
                             <td align="left" style="padding: 30px 0 20px 0; color: #153643; font-size: 28px; font-weight: bold; font-family: Arial, sans-serif;">
-                                <img src="https://www.yunpian.com/static/images4/qc/email_logo.png" width="379" height="71" style="display: block;">
+<!--                                <img src="https://www.yunpian.com/static/images4/qc/email_logo.png" width="379" height="71" style="display: block;">-->
                             </td>
                         </tr>
                         <tr>
@@ -62,7 +62,7 @@
                                             <table border="0" cellpadding="0" cellspacing="0">
                                                 <tbody><tr>
                                                     <td style="font-size: 0; line-height: 0;" width="110">
-                                                        <img src="https://www.yunpian.com/static/images4/qc/QR.png" width="110" height="110" style="display: block;" border="0">
+<!--                                                        <img src="https://www.yunpian.com/static/images4/qc/QR.png" width="110" height="110" style="display: block;" border="0">-->
                                                     </td>
                                                 </tr>
                                                 <tr>

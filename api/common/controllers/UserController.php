@@ -28,8 +28,8 @@ class UserController extends BaseController
      * @api {post} /user/code 发送验证码
      *
      * @apiGroup user
-     * @apiParams {string} username 手机号或则邮箱
-     * @apiParams {int} type 0 代表注册 1 代表重设密码
+     * @apiParam {string} username 手机号或则邮箱
+     * @apiParam {int} type 0 代表注册 1 代表重设密码
      *
      * @apiSuccessExample SuccessExample
      * {
@@ -72,7 +72,7 @@ class UserController extends BaseController
             $res = YunPianManager::sendAdminSMS($username, '【益跑益行】您的验证码是' . $code);
         }
         if ($is_email) {
-            $res = \Yii::$app->mailer->compose('@app/../common/views/mail.php', ['code' => $code])
+            $res = \Yii::$app->mailer->compose('mail.php', ['code' => $code])
                 ->setFrom('429407645@qq.com')
                 ->setTo($username)
                 ->setSubject('益跑益行注册验证')
@@ -86,9 +86,9 @@ class UserController extends BaseController
      * @api {post} /user/oauths 用户注册
      *
      * @apiGroup user
-     * @apiParams {string} username 手机号或则邮箱
-     * @apiParams {string} password 密码
-     * @apiParams {string} code 验证码(发手机或则邮箱)
+     * @apiParam {string} username 手机号或则邮箱
+     * @apiParam {string} password 密码
+     * @apiParam {string} code 验证码(发手机或则邮箱)
      * @apiSuccessExample SuccessExample
      * {
      * "id": "xlzgw",
@@ -176,7 +176,7 @@ class UserController extends BaseController
      * @api {get} /user/nickname 用户昵称是否可用
      *
      * @apiGroup user
-     * @apiParams {string} nickname 昵称
+     * @apiParam {string} nickname 昵称
      * @apiSuccessExample SuccessExample 0 昵称不可用 1 昵称可用
      *{
      * "data": 0,
@@ -204,7 +204,7 @@ class UserController extends BaseController
      * @api {post} /user/set-nickname 设置用户昵称
      *
      * @apiGroup user
-     * @apiParams {string} nickname 昵称
+     * @apiParam {string} nickname 昵称
      * @apiPermission token
      * @apiSuccessExample SuccessExample
      *{
@@ -237,8 +237,8 @@ class UserController extends BaseController
      * @api {post} /user/login 用户登录
      *
      * @apiGroup user
-     * @apiParams {string} username 用户名称
-     * @apiParams {string} password 密码
+     * @apiParam {string} username 用户名称
+     * @apiParam {string} password 密码
      *
      * @apiSuccessExample SuccessExample
      * 同用户注册
@@ -262,9 +262,9 @@ class UserController extends BaseController
      * @api {post} /user/set-password 用户重新设置密码
      *
      * @apiGroup user
-     * @apiParams {string} username 手机号或则邮箱
-     * @apiParams {string} password 密码
-     * @apiParams {string} code 验证码(发手机或则邮箱)
+     * @apiParam {string} username 手机号或则邮箱
+     * @apiParam {string} password 密码
+     * @apiParam {string} code 验证码(发手机或则邮箱)
      * @apiSuccessExample SuccessExample
      * 同用户注册
      */
