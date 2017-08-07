@@ -58,8 +58,20 @@ return [
             'showScriptName' => false, // 在URL路径中是否显示脚本入口文件
             'rules' => [
                 'OPTIONS <any:.*>' => 'v1/api/response',
-
+                // 获取用户资料
                 'GET v1/user/index' => 'v1/user/index',
+                // 用户注册
+                'POST v1/user/oauths' => 'v1/user/oauths',
+                // 发送验证码
+                'POST v1/user/code' => 'v1/user/code',
+                // 用户登录
+                'POST v1/user/login' => 'v1/user/login',
+                // 昵称是否可用
+                'GET v1/user/nickname' => 'v1/user/nickname',
+                // 设置用户昵称
+                'POST v1/user/set-nickname' => 'v1/user/set-nickname',
+                // 用户重新设置密码
+                'POST v1/user/set-password' => 'v1/user/set-password',
             ],
         ],
 

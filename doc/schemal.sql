@@ -17,14 +17,16 @@ create table if not exists admin_user (
 create table if not exists `user`(
   id int unsigned not null auto_increment,
   nickname varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci not null, -- 用户昵称，可能有一些表情符啥的
+  username varchar(50),
+  type smallint unsigned default 0 , -- 0 手机号 注册 1 邮箱注册
   avatar varchar(200) ,
   access_token varchar(500) not null,
+  password_hash varchar(100),
   password_reset_token varchar(100),
   auth_key varchar(100) not null,
   open_id varchar(500),
   union_id varchar(500),
   gender SMALLINT unsigned default 0,
-  city varchar(100) , -- 工作城市
   created_at int unsigned ,
   updated_at int unsigned,
   primary key(id)

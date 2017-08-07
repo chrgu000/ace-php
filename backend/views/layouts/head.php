@@ -1,6 +1,6 @@
 <head>
     <meta charset="utf-8" />
-    <title>OL圈管理后台</title>
+    <title>益行益跑管理后台</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="<?= Yii::$app->request->csrfToken?>" >
     <!-- basic styles -->

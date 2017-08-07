@@ -1,1 +1,53 @@
 ssh root@123.56.14.166
+
+
+益行益跑第三方账号：
+
+阿里云服务器：
+IMAM阿里云账号：IMAM格调文化
+密码：123456@IMAM576914
+
+美好未来阿里云远程链接密码
+阿里云root登录密码Seastart77
+APPLEID： ID：s.qmfund@qq.com
+密码：Wofa898989
+
+微信开放平台：
+IMAM公众号：hu.imam2015@foxmail.com
+密码：wofa888999
+
+益跑益行QQ邮箱：
+账号：yixingyipao@qq.com
+对应QQ账号：1593889549
+密码：wofa888999
+
+域名邮箱：info@yixingyipao.cn
+对应QQ账号：1593889549
+密码：wofa888999
+
+微信开发者平台：
+账号：info@yixingyipao.cn (还未经过开发者资质验证)
+手机：18106562455
+密码：wofa888999
+
+腾讯开放平台：(已创建开发者账号)
+账号：1593889549
+密码：wofa888999
+
+微博：（开发者账号，未实名认证，应用已添加）
+账号：18106562455
+密码：wofa888999
+
+顽兔（即支付宝账号）：
+账号：imam2015@foxmail.com
+密码：wofa888999
+
+淘宝开发平台：
+应用名称：益行益跑
+App Key： 24569241
+App Secret： aa162702400be706bc5c4e0667c383cf
+
+云片网：
+账号：info@yixingyipao.cn
+密码：wofa888999
+手机号：18106562455

@@ -2,22 +2,27 @@
 
 namespace common\models;
 
+use common\util\Constants;
+use common\util\Utils;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\web\IdentityInterface;
+
 /**
  * This is the model class for table "user".
  *
  * @property integer $id
  * @property string $nickname
+ * @property string $username
+ * @property integer $type
  * @property string $avatar
  * @property string $access_token
+ * @property string $password_hash
  * @property string $password_reset_token
  * @property string $auth_key
  * @property string $open_id
  * @property string $union_id
  * @property integer $gender
- * @property string $city
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -44,12 +49,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['nickname', 'access_token', 'auth_key'], 'required'],
-            [['gender', 'created_at', 'updated_at'], 'integer'],
-            [['nickname'], 'string', 'max' => 50],
+            [['nickname', 'access_token', 'auth_key','password_hash'], 'required'],
+            [['type', 'gender', 'created_at', 'updated_at'], 'integer'],
+            [['nickname', 'username'], 'string', 'max' => 50],
             [['avatar'], 'string', 'max' => 200],
             [['access_token', 'open_id', 'union_id'], 'string', 'max' => 500],
-            [['password_reset_token', 'auth_key', 'city'], 'string', 'max' => 100],
+            [['password_reset_token', 'auth_key','password_hash'], 'string', 'max' => 100],
         ];
     }
 
@@ -61,6 +66,8 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             'id' => 'ID',
             'nickname' => 'Nickname',
+            'username' => 'Username',
+            'type' => 'Type',
             'avatar' => 'Avatar',
             'access_token' => 'Access Token',
             'password_reset_token' => 'Password Reset Token',
@@ -68,7 +75,6 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'open_id' => 'Open ID',
             'union_id' => 'Union ID',
             'gender' => 'Gender',
-            'city' => 'City',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -127,5 +133,42 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function generateAccessToken() {
         $this->access_token = uniqid() . '_' . time();
+    }
+
+    /**
+     * Validates password
+     *
+     * @param string $password password to validate
+     * @return boolean if password provided is valid for current user
+     */
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    /**
+     * Generates password hash from password and sets it to the model
+     *
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+    }
+
+    public function fields()
+    {
+        return [
+            'id' => function(){
+                return Utils::encryptId($this->id,Constants::ENC_TYPE_USER);
+            },'username','nickname','type','created_at'
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [
+            'access_token',
+        ];
     }
 }
