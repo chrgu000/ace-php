@@ -55,8 +55,9 @@ class ActivityController extends Controller
     {
         $model = new Activity();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return 1;
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+
         } else {
             return $this->render('create', [
                 'model' => $model,

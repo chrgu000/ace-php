@@ -96,7 +96,10 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = new <?= $modelClass ?>();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            $model->load($post);
+            $model->save();
             return 1;
         } else {
             return $this->render('create', [
@@ -115,7 +118,10 @@ class <?= $controllerClass ?> extends <?= StringHelper::basename($generator->bas
     {
         $model = $this->findModel(<?= $actionParams ?>);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            $model->load($post);
+            $model->save();
             return 1;
         } else {
             return $this->render('update', [

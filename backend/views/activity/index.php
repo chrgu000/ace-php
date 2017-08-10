@@ -17,12 +17,12 @@
         <div class="page-content">
             <div class="row">
                 <div class="col-xs-12">
-                    <h3 class="header smaller lighter blue">XXX管理</h3>
+                    <h3 class="header smaller lighter blue">活动管理</h3>
                     <p>
-                        <a href="create" class="btn btn-success">创建XXX</a>
+                        <a href="create" class="btn btn-success">创建活动</a>
                     </p>
                     <div class="table-header">
-                        XXX列表
+                        活动列表
                     </div>
 
                     <div class="table-responsive">
@@ -30,12 +30,11 @@
                             <thead>
                             <tr>
                              <th>id</th>
-                             <th>topic_id</th>
-                             <th>cover</th>
-                             <th>title</th>
-                             <th>en_title</th>
-                             <th>location</th>
-                             <th>en_location</th>
+                             <th>封面</th>
+                             <th>标题</th>
+                             <th>英文标题</th>
+                             <th>活动城市</th>
+                             <th>英文城市名称</th>
                              <th></th>
                             </tr>
                             </thead>

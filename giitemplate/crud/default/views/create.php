@@ -44,8 +44,7 @@
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" >封面:</label>
                             <div class="col-sm-9">
                                 <div class="clearfix col-sm-9">
-                                    <input id="file-path" type="hidden" name="icon">
-                                    <input id="input-id" name="file" type="file" class="file" data-preview-file-type="text" >
+                                    <input id="input-id" type="file" class="file" data-preview-file-type="text" >
                                 </div>
                             </div>
                         </div>
@@ -116,20 +115,7 @@
                 "_csrf-backend" : $('#csrf').val(),
             }
         }).on("fileuploaded",function(event,data,previewId,index){
-            console.log(data.response.url);
-            $("#file-path").val(data.response.url) ;
-        }).on('filecleared', function(event) {
-            console.log('filecleared');
-            $("#file-path").val('') ;
-        }).on("fileremoved",function(event){
-            console.log('fileremoved')
-            $("#file-path").val('') ;
-        }).on("filedeleted",function(event){
-            console.log("filedeleted");
-            $("#file-path").val('') ;
-        }).on('filesuccessremove', function(event, id) {
-            console.log('filesuccessremove');
-            $("#file-path").val('') ;
+            $('#'+previewId).attr('data-imgSrc',data.response.url);
         });
         $('#submit').click(function(){
             $('#create-model-form').submit();
@@ -185,12 +171,19 @@
             },
 
             submitHandler: function (form) {
+                var filePath = [];
+                $('[data-imgSrc]').each(function() {
+                    filePath.push($(this).attr('data-imgSrc'));
+                });
                 $('.main-content').showLoading();
                 $('#create-model-form').ajaxSubmit({
                     url:'create',
                     dataType:'json',
                     type:'post',
                     enctype: 'multipart/form-data',
+                    data : {
+                        filePath: filePath,
+                    },
                     error:function(result){
                         $('.main-content').hideLoading();
                         gritterError(result.responseText);
