@@ -11,6 +11,8 @@ class Constants{
 
     const UPLOAD_TYPE_LIVE = 1;
 
+    const UPLOAD_TYPE_APP = 2;
+
     const IMG_DELIMITER = '||';
 
     const ENC_TYPE_USER = 'USER';
@@ -22,6 +24,10 @@ class Constants{
             'max' => 2
         ],
 
+        self::UPLOAD_TYPE_APP => [
+            'name' => '海星直播图片',
+            'max' => 2
+        ],
     ];
 
 }

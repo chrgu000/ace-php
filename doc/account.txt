@@ -41,6 +41,8 @@ IMAM公众号：hu.imam2015@foxmail.com
 顽兔（即支付宝账号）：
 账号：imam2015@foxmail.com
 密码：wofa888999
+AK: 24569241
+SK: aa162702400be706bc5c4e0667c383cf
 
 淘宝开发平台：
 应用名称：益行益跑

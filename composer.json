@@ -27,6 +27,11 @@
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1"
     },
+    "autoload": {
+        "classmap": [
+            "vendor/alibc/"
+        ]
+    },
     "config": {
         "process-timeout": 1800,
         "fxp-asset":{

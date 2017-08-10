@@ -28,7 +28,7 @@
                                     </tr>
                                     <tr>
                                         <td style="color: #666666; font-family: Arial, sans-serif; font-size: 15px; line-height: 22px;padding-bottom: 80px;">
-                                            Greetings from YunPian, your vertification code is: <span style="border-bottom:1px dashed #ccc;z-index:1" t="7" onclick="return false;" data="<?= $code?>"><?= $code?></span>, it will expire<br>in 20 minutes.
+                                            Greetings from YiPaoYiXing, your vertification code is: <span style="border-bottom:1px dashed #ccc;z-index:1" t="7" onclick="return false;" data="<?= $code?>"><?= $code?></span>, it will expire<br>in 20 minutes.
                                         </td>
                                     </tr>
                                     </tbody></table>

@@ -25,7 +25,7 @@ class UserController extends BaseController
     public $needLoginActions = ['index','set-nickname'];
 
     /**
-     * @api {post} /user/code 发送验证码
+     * @api {post} /users/code 发送验证码
      *
      * @apiGroup user
      * @apiParam {string} username 手机号或则邮箱
@@ -83,7 +83,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @api {post} /user/oauths 用户注册
+     * @api {post} /users/oauths 用户注册
      *
      * @apiGroup user
      * @apiParam {string} username 手机号或则邮箱
@@ -150,7 +150,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @api {get} /user/index 获取登录用户信息
+     * @api {get} /users/index 获取登录用户信息
      *
      * @apiGroup user
      * @apiPermission token
@@ -173,7 +173,7 @@ class UserController extends BaseController
 
 
     /**
-     * @api {get} /user/nickname 用户昵称是否可用
+     * @api {get} /users/check-nick 用户昵称是否可用
      *
      * @apiGroup user
      * @apiParam {string} nickname 昵称
@@ -201,7 +201,7 @@ class UserController extends BaseController
 
 
     /**
-     * @api {post} /user/set-nickname 设置用户昵称
+     * @api {post} /users/set-nickname 设置用户昵称
      *
      * @apiGroup user
      * @apiParam {string} nickname 昵称
@@ -259,7 +259,7 @@ class UserController extends BaseController
     }
 
     /**
-     * @api {post} /user/set-password 用户重新设置密码
+     * @api {post} /users/reset-pwd 用户重新设置密码
      *
      * @apiGroup user
      * @apiParam {string} username 手机号或则邮箱

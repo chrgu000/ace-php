@@ -29,17 +29,22 @@
                 </li>
             </ul>
         </li>
-        <?php $app = ['live','vod','gift','income']?>
+        <?php $app = ['activity']?>
         <li class="<?php if( in_array(\Yii::$app->controller->id, $app)){echo 'active';}?>">
             <a href="#" class="dropdown-toggle">
                 <i class="icon-leaf"></i>
                 <span class="menu-text"> APP管理设置 </span>
-
                 <b class="arrow icon-angle-down"></b>
             </a>
 
             <ul class="submenu">
-
+                <li class="<?= Yii::$app->controller->id == 'activity'?'active':''?>">
+                    <a href="/activity/index" class="dropdown-toggle">
+                        <i class="icon-double-angle-right"></i>
+                        热门活动
+                        <b class="arrow icon-angle-down"></b>
+                    </a>
+                </li>
             </ul>
         </li>
         <?php $homepage = ['live-category','homepage-list']?>

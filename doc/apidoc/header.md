@@ -1,6 +1,6 @@
 ***
 API调用地址前缀：http://api.benefit.littlerokie.cn/<br />
-图片前缀:http://frontend.benefit.littlerokie.cn/ <br />
+图片前缀:http://benefit.image.alimmdn.com/ <br />
 一律采用JSON格式输入、输出。<br />
 接口调用，需传递以下额外头：<br />
 ```

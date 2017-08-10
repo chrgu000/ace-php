@@ -11,7 +11,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\web\Response;
+
 
 /**
  * AdminUserController implements the CRUD actions for AdminUser model.

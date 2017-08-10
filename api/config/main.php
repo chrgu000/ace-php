@@ -59,19 +59,23 @@ return [
             'rules' => [
                 'OPTIONS <any:.*>' => 'v1/api/response',
                 // 获取用户资料
-                'GET v1/user/index' => 'v1/user/index',
+                'GET v1/users/index' => 'v1/user/index',
                 // 用户注册
-                'POST v1/user/oauths' => 'v1/user/oauths',
+                'POST v1/users/oauths' => 'v1/user/oauths',
                 // 发送验证码
-                'POST v1/user/code' => 'v1/user/code',
+                'POST v1/users/code' => 'v1/user/code',
                 // 用户登录
-                'POST v1/user/login' => 'v1/user/login',
+                'POST v1/users/login' => 'v1/user/login',
                 // 昵称是否可用
-                'GET v1/user/nickname' => 'v1/user/nickname',
+                'GET v1/users/check-nick' => 'v1/user/nickname',
                 // 设置用户昵称
-                'POST v1/user/set-nickname' => 'v1/user/set-nickname',
+                'POST v1/users/set-nickname' => 'v1/user/set-nickname',
                 // 用户重新设置密码
-                'POST v1/user/set-password' => 'v1/user/set-password',
+                'POST v1/users/reset-pwd' => 'v1/user/set-password',
+                // 获取顽兔上传文件凭证
+                'GET v1/upload/token' => 'v1/api/token',
+                // 获取顽兔上传的文件名
+                'GET v1/upload/file-name' => 'v1/api/file-name'
             ],
         ],
 

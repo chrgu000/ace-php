@@ -31,3 +31,36 @@ create table if not exists `user`(
   updated_at int unsigned,
   primary key(id)
 )engine=InnoDB default charset=utf8;
+
+create table if not exists `topic` (
+  id int unsigned not null auto_increment,
+  cover varchar(100),
+  title varchar(100),
+  created_at int unsigned,
+  updated_at int unsigned,
+  primary key(id)
+)engine=InnoDB default charset=utf8;
+
+create table if not exists `activity` (
+  id int unsigned not null auto_increment,
+  topic_id int unsigned,
+  cover varchar(100),
+  title varchar(100),
+  en_title varchar(100), -- 英文标题
+  location varchar(100), -- 城市
+  en_location varchar(100),
+  start_time int unsigned,
+  end_time int unsigned ,
+  join_type smallint unsigned default 0, -- 0 线下 1 线上 2 两者都可以
+  people_num int unsigned default 0, -- 报名人数
+  `desc` text , -- 简介
+  en_desc text ,  -- 英文简介
+  price decimal(10,2), -- 报名价格
+  benefit_walk smallint unsigned default 0, -- 益行 公里数 若为0 则表示 没有此行动
+  benefit_run smallint unsigned default 0, -- 益跑 公里数 若为0 则表示 没有此行动
+  benefit_bike smallint unsigned default 0, -- 益骑 公里数 若为0 则表示 没有此行动
+  created_at int unsigned,
+  updated_at int unsigned,
+  foreign key(topic_id) references topic(id) on delete set null on update cascade,
+  primary key(id)
+)engine=InnoDB default charset=utf8;
