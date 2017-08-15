@@ -2,9 +2,10 @@
 
 namespace common\models;
 
+use common\util\Constants;
+use common\util\Utils;
 use Yii;
 use yii\behaviors\TimestampBehavior;
-
 /**
  * This is the model class for table "activity".
  *
@@ -13,22 +14,15 @@ use yii\behaviors\TimestampBehavior;
  * @property string $cover
  * @property string $title
  * @property string $en_title
- * @property string $location
- * @property string $en_location
  * @property integer $start_time
- * @property integer $end_time
- * @property integer $join_type
  * @property integer $people_num
- * @property string $desc
- * @property string $en_desc
- * @property string $price
  * @property integer $created_at
  * @property integer $updated_at
- * @property integer $benefit_walk
- * @property integer $benefit_run
- * @property integer $benefit_bike
  *
  * @property Topic $topic
+ * @property OfflineActivity[] $offlineActivities
+ * @property Online[] $onlines
+ * @property OnlineActivity[] $onlineActivities
  */
 class Activity extends \yii\db\ActiveRecord
 {
@@ -38,7 +32,6 @@ class Activity extends \yii\db\ActiveRecord
             TimestampBehavior::className(),
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -53,10 +46,8 @@ class Activity extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['topic_id', 'start_time', 'end_time', 'join_type', 'people_num', 'created_at', 'updated_at', 'benefit_walk', 'benefit_run', 'benefit_bike'], 'integer'],
-            [['desc', 'en_desc'], 'string'],
-            [['price'], 'number'],
-            [['cover', 'title', 'en_title', 'location', 'en_location'], 'string', 'max' => 100],
+            [['topic_id', 'start_time', 'people_num', 'created_at', 'updated_at','hot'], 'integer'],
+            [['cover', 'title', 'en_title'], 'string', 'max' => 100],
             [['topic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Topic::className(), 'targetAttribute' => ['topic_id' => 'id']],
         ];
     }
@@ -72,20 +63,10 @@ class Activity extends \yii\db\ActiveRecord
             'cover' => 'Cover',
             'title' => 'Title',
             'en_title' => 'En Title',
-            'location' => 'Location',
-            'en_location' => 'En Location',
             'start_time' => 'Start Time',
-            'end_time' => 'End Time',
-            'join_type' => 'Join Type',
             'people_num' => 'People Num',
-            'desc' => 'Desc',
-            'en_desc' => 'En Desc',
-            'price' => 'Price',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
-            'benefit_walk' => 'Benefit Walk',
-            'benefit_run' => 'Benefit Run',
-            'benefit_bike' => 'Benefit Bike',
         ];
     }
 
@@ -95,5 +76,51 @@ class Activity extends \yii\db\ActiveRecord
     public function getTopic()
     {
         return $this->hasOne(Topic::className(), ['id' => 'topic_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOfflineActivities()
+    {
+        return $this->hasOne(OfflineActivity::className(), ['activity_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOnlines()
+    {
+        return $this->hasMany(Online::className(), ['activity_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOnlineActivities()
+    {
+        return $this->hasOne(OnlineActivity::className(), ['activity_id' => 'id']);
+    }
+
+    public function fields()
+    {
+        return [
+            'id'=>function(){
+                return Utils::encryptId($this->id,Constants::ENC_TYPE_ACTIVITY);
+            },
+            'topic',
+            'cover',
+            'title',
+            'en_title',
+            'start_time',
+            'people_num',
+            'online_activity'=>'onlineActivities',
+            'offline_activity'=>'offlineActivities',
+        ];
+    }
+    public function extraFields()
+    {
+        return [
+        ];
     }
 }

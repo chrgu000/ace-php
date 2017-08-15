@@ -120,7 +120,7 @@ class Utils {
         if( $response->isSuccessful ) {
             // 如果非数组或者纯数组，套一层data
             //array_keys($response->data) === array_keys(array_keys($response->data))
-            if(!array_key_exists('api_code',$response->data)){
+            //if(!array_key_exists('api_code',$response->data)){
                 if(!is_array( $response->data ) || empty($response->data) || array_keys($response->data) === range(0, count($response->data) - 1)) {
                     $response->data = [
                         'data' => $response->data ,
@@ -130,7 +130,7 @@ class Utils {
                 else {
                     $response->data['api_code'] = 200;
                 }
-            }
+            //}
         }
         else {
             //data在有运行error或者exception是一维数组

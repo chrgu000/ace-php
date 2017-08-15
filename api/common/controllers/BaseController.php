@@ -22,11 +22,11 @@ class BaseController extends Controller {
 
     public function behaviors() {
         $behaviors = parent::behaviors();
-        $behaviors ['authenticator'] = [ 
-            'class' => ApiAuth::className() 
+        $behaviors ['authenticator'] = [
+            'class' => ApiAuth::className()
         ];
-        $behaviors ['encrypter'] = [ 
-            'class' => DataEncrypter::className() 
+        $behaviors ['encrypter'] = [
+            'class' => DataEncrypter::className()
         ];
         return $behaviors;
     }

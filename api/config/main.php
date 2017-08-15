@@ -75,7 +75,17 @@ return [
                 // 获取顽兔上传文件凭证
                 'GET v1/upload/token' => 'v1/api/token',
                 // 获取顽兔上传的文件名
-                'GET v1/upload/file-name' => 'v1/api/file-name'
+                'GET v1/upload/file-name' => 'v1/api/file-name',
+                // 获取活动详情
+                'GET v1/activity/show/<id:.+>' => 'v1/activity/show',
+                // 线上报名
+                'POST v1/activity/online/<id:.+>' => 'v1/activity/online',
+                // 线下报名
+                'POST v1/activity/offline/<id:.+>' => 'v1/activity/offline',
+
+
+                // 首页
+                'GET v1/homepage/index' => 'v1/homepage/index',
             ],
         ],
 
