@@ -92,6 +92,15 @@ return [
                 'GET v1/activity/list/<id:.+>' => 'v1/activity/list',
                 // 获取活动详情
                 'GET v1/activity/show/<id:.+>' => 'v1/activity/show',
+
+                // 获取跑团详情
+                'GET v1/group/show/<id:.+>' => 'v1/run-group/show',
+
+
+                // 创建跑团
+                'POST v1/group/create' => 'v1/run-group/create',
+
+
             ],
         ],
 

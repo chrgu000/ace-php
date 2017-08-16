@@ -29,6 +29,9 @@ class Constants{
 
     const ENC_TYPE_ORDER = 'ORDER';
 
+    const ENC_TYPE_RUN_GROUP = 'RUN_GROUP';
+
+
     const ORDER_TYPE_ONLINE = 0;
 
     const ORDER_TYPE_OFFLINE = 1;

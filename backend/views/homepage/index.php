@@ -19,7 +19,7 @@
                 <div class="col-xs-12">
                     <h3 class="header smaller lighter blue">XXX管理</h3>
                     <p>
-                        <a href="/create" class="btn btn-success">创建XXX</a>
+                        <a href="create" class="btn btn-success">创建XXX</a>
                     </p>
                     <div class="table-header">
                         XXX列表

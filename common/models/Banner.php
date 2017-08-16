@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "banner".
  *
@@ -18,6 +18,13 @@ use Yii;
  */
 class Banner extends \yii\db\ActiveRecord
 {
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
     /**
      * @inheritdoc
      */
@@ -38,6 +45,22 @@ class Banner extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getTarget(){
+        if($this->type==0){
+            return $this->target_id;
+        }
+        if($this->type==1){
+            return $this->hasOne(Topic::className(), ['id' => 'target_id']);
+        }
+        if($this->type==2){
+            return $this->hasOne(Activity::className(), ['id' => 'target_id']);
+        }
+        if($this->type==3){
+            return $this->hasOne(Activity::className(), ['id' => 'target_id']);
+        }
+        return $this->target_id;
+    }
+
     /**
      * @inheritdoc
      */
@@ -52,6 +75,16 @@ class Banner extends \yii\db\ActiveRecord
             'rank' => 'Rank',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+        ];
+    }
+
+    public function fields()
+    {
+        return [
+            'type',
+            'img',
+            'link',
+            'target',
         ];
     }
 }
