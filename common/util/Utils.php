@@ -155,7 +155,10 @@ class Utils {
      * 获取后端图片渲染前缀
      */
     public static function getImgUrlPrefix() {
-        $imgPrefix = \Yii::$app->params['alibc']['imgPrefix'];
+        $imgPrefix = \Yii::$app->params ['frontUrl'];
+        if( !empty(  \Yii::$app->params['alibc']['imgPrefix'] ) ) {
+            $imgPrefix = \Yii::$app->params['alibc']['imgPrefix'];
+        }
         return $imgPrefix;
     }
 
