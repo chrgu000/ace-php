@@ -92,6 +92,10 @@ class OfflineActivity extends \yii\db\ActiveRecord
             'id'=>function(){
                 return Utils::encryptId($this->id,Constants::ENC_TYPE_OFFLINE_ACTIVITY);
             },
+            'activity',
+            'type'=>function(){
+                return 1;
+            },
             'location',
             'en_location',
             'end_time',

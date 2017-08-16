@@ -46,7 +46,7 @@ class Activity extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['topic_id', 'start_time', 'people_num', 'created_at', 'updated_at','hot'], 'integer'],
+            [['topic_id', 'start_time', 'people_num', 'created_at', 'updated_at'], 'integer'],
             [['cover', 'title', 'en_title'], 'string', 'max' => 100],
             [['topic_id'], 'exist', 'skipOnError' => true, 'targetClass' => Topic::className(), 'targetAttribute' => ['topic_id' => 'id']],
         ];
@@ -108,14 +108,16 @@ class Activity extends \yii\db\ActiveRecord
             'id'=>function(){
                 return Utils::encryptId($this->id,Constants::ENC_TYPE_ACTIVITY);
             },
-            'topic',
+            'topic_id'=>function(){
+                return Utils::encryptId($this->topic_id,Constants::ENC_TYPE_TOPIC);
+            },
             'cover',
             'title',
             'en_title',
             'start_time',
             'people_num',
-            'online_activity'=>'onlineActivities',
-            'offline_activity'=>'offlineActivities',
+            //'online_activity'=>'onlineActivities',
+            //'offline_activity'=>'offlineActivities',
         ];
     }
     public function extraFields()

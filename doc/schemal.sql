@@ -49,7 +49,6 @@ create table if not exists `activity` (
   en_title varchar(100), -- 英文标题
   start_time int unsigned,
   people_num int unsigned default 0, -- 报名人数
-  hot int unsigned not null default 0,
   created_at int unsigned,
   updated_at int unsigned,
   foreign key(topic_id) references topic(id) on delete set null on update cascade,

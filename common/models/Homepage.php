@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-
+use yii\behaviors\TimestampBehavior;
 /**
  * This is the model class for table "homepage".
  *
@@ -16,6 +16,13 @@ use Yii;
  */
 class Homepage extends \yii\db\ActiveRecord
 {
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -35,6 +42,15 @@ class Homepage extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getTarget(){
+        if(empty($this->type)){
+            return $this->hasOne(Topic::className(), ['id' => 'target_id']);
+        }
+        else{
+            return $this->hasOne(Activity::className(), ['id' => 'target_id']);
+        }
+    }
+
     /**
      * @inheritdoc
      */
@@ -47,6 +63,13 @@ class Homepage extends \yii\db\ActiveRecord
             'rank' => 'Rank',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+        ];
+    }
+
+    public  function fields()
+    {
+        return [
+            'target'
         ];
     }
 }

@@ -100,6 +100,10 @@ class OnlineActivity extends \yii\db\ActiveRecord
             'id'=>function(){
                 return Utils::encryptId($this->id,Constants::ENC_TYPE_ONLINE_ACTIVITY);
             },
+            'activity',
+            'type'=>function(){
+                return 0;
+            },
             'location',
             'en_location',
             'end_time',

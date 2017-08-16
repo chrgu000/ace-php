@@ -2,6 +2,8 @@
 
 namespace common\models;
 
+use common\util\Constants;
+use common\util\Utils;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -65,5 +67,20 @@ class Topic extends \yii\db\ActiveRecord
     public function getActivities()
     {
         return $this->hasMany(Activity::className(), ['topic_id' => 'id']);
+    }
+
+    public function fields()
+    {
+        return [
+            'id'=>function(){
+                return Utils::encryptId($this->id,Constants::ENC_TYPE_TOPIC);
+            },
+            'cover',
+            'title',
+            'activities',
+//            'activity'=>function(){
+//                return Activity::find()->where(['topic_id'=>$this->id])->();
+//            }
+        ];
     }
 }

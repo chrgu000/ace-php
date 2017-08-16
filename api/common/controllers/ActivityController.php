@@ -15,6 +15,7 @@ use common\models\Offline;
 use common\models\OfflineActivity;
 use common\models\Online;
 use common\models\OnlineActivity;
+use common\models\Topic;
 use common\service\OrderService;
 use common\util\Constants;
 use common\util\Utils;
@@ -25,23 +26,161 @@ class ActivityController extends BaseController
 
     public $needLoginActions=['online','offline'];
 
+
+    /**
+     * @api {post} /topic/index 专题列表
+     *
+     *
+     * @apiGroup topic
+     *
+     * @apiParam {string} start 专题id
+     * @apiParam {string} page 页码
+     * @apiParam {string} num 数量
+     *
+     *
+     *
+     *
+     * @apiSuccessExample SuccessExample
+        {
+        "data": [
+        {
+        "id": "rdy81",
+        "cover": "test",
+        "title": "test",
+        "activities": [
+        {
+        "id": "d70r7",
+        "topic_id": "rdy81",
+        "cover": "test",
+        "title": "test",
+        "en_title": null,
+        "start_time": null,
+        "people_num": 2
+        }
+        ]
+        }
+        ],
+        "api_code": 200
+        }
+     */
+
+    public function actionTopic()
+    {
+        $start = $this->getParam( 'start', 0, true );
+        $page = $this->getParam( 'page', 0, true );
+        $num = $this->getParam( 'num', 10, true );
+        if(empty($start)){
+            return  Topic::find()->orderBy('created_at DESC')->offset($page * $num)->limit( $num )->all();
+        }
+        return  Topic::find()->where(['<','id',$start])->orderBy('created_at DESC')->offset($page * $num)->limit( $num )->all();
+    }
+
+    /**
+     * @api {post} /activity/list/<id:.+> 专题详情列表
+     *
+     *
+     * @apiGroup topic
+     *
+     * @apiParam {string} :id 专题id
+     * @apiParam {string} start 活动id
+     * @apiParam {string} page 页码
+     * @apiParam {string} num 数量
+     *
+     *
+     *
+     *
+     * @apiSuccessExample SuccessExample
+        {
+        "data": [
+        {
+        "id": "d70r7",
+        "topic_id": "rdy81",
+        "cover": "test",
+        "title": "test",
+        "en_title": null,
+        "start_time": null,
+        "people_num": 2
+        }
+        ],
+        "api_code": 200
+        }
+     */
+
     public function actionList($id)
     {
-        //$id=Utils::decryptId($id,Constants::ENC_TYPE_TOPIC);
+        $start = $this->getParam( 'start', 0, true );
+        $page = $this->getParam( 'page', 0, true );
+        $num = $this->getParam( 'num', 10, true );
+        $id=Utils::decryptId($id,Constants::ENC_TYPE_TOPIC);
         if(empty($id)){
-            throw new ErrorException("1");
+            throw new ErrorException("专题不能为空");
         }
-        return Activity::find()->where(['topic_id'=>$id])->all();
+        if(empty($start)) {
+            return Activity::find()->where(['topic_id' => $id])->orderBy('created_at DESC')->offset($page * $num)->limit($num)->all();
+        }
+        return Activity::find()->where(['topic_id' => $id])->andWhere(['<','id',$start])->orderBy('created_at DESC')->offset($page * $num)->limit($num)->all();
+
     }
+
+    /**
+     * @api {post} /activity/show/<id:.+> 活动详情
+     *
+     *
+     * @apiGroup activity
+     *
+     * @apiParam {string} :id 活动id
+     * @apiParam {string} type 0 线上活动 1 线下活动
+     *
+     *
+     *
+     * @apiSuccessExample SuccessExample
+        {
+        "id": "vy1ql",
+        "activity": {
+        "id": "d70r7",
+        "topic_id": "rdy81",
+        "cover": "test",
+        "title": "test",
+        "en_title": null,
+        "start_time": null,
+        "people_num": 1
+        },
+        "type": 0,
+        "location": "test",
+        "en_location": "test",
+        "end_time": 1602763839,
+        "people_num": 3,
+        "desc": null,
+        "en_desc": null,
+        "price": "1000.00",
+        "benefit_walk_min": 0,
+        "benefit_run_min": 0,
+        "benefit_bike_min": 0,
+        "benefit_walk_max": 100,
+        "benefit_run_max": 100,
+        "benefit_bike_max": 1000,
+        "api_code": 200
+        }
+     */
 
     public function actionShow($id)
     {
-        //$id=Utils::decryptId($id,Constants::ENC_TYPE_ACTIVITY);
+        $type=$this->getParam('type',0,true);
+        $id=Utils::decryptId($id,Constants::ENC_TYPE_ACTIVITY);
         if(empty($id)){
-            throw new ErrorException("1");
+            throw new ErrorException("活动不能为空");
         }
+        if (empty($type)){
+            $activity=OnlineActivity::find()->where(['activity_id'=>$id])->one();
+        }
+        else{
+            $activity=OfflineActivity::find()->where(['activity_id'=>$id])->one();
+        }
+        if(empty($activity)){
+            throw new ErrorException("报名活动不能为空");
+        }
+        return OnlineActivity::find()->where(['id'=>$id])->one();
 
-        return Activity::find()->where(['id'=>$id])->one();
     }
 
 
@@ -72,7 +211,7 @@ class ActivityController extends BaseController
 
     public function actionOnline($id)
     {
-        //$id=Utils::decryptId($id,Constants::ENC_TYPE_ONLINE_ACTIVITY);
+        $id=Utils::decryptId($id,Constants::ENC_TYPE_ACTIVITY);
 
         $benefit_walk=$this->getParam('walk',0);
         $benefit_run=$this->getParam('run',0);
@@ -86,15 +225,15 @@ class ActivityController extends BaseController
 
         $user_id=\Yii::$app->user->id;
 
-        $online_activity=OnlineActivity::find()->where(['id'=>$id])->one();
-        $activity=$online_activity->activity;
+        $activity=Activity::find()->where(['id'=>$id])->one();
+        $online_activity=$activity->onlineActivities;
         $online=Online::find()->where(['activity_id'=>$activity->id,'online_activity_id'=>$online_activity->id,'user_id'=>$user_id])->one();
 
         if(!empty($online)){
             throw new ErrorException("已报名");
         }
         if(empty($online_activity)){
-            throw new ErrorException("无该线下活动");
+            throw new ErrorException("无该线上活动");
         }
         if($online_activity->end_time<time()){
             throw new ErrorException("已过报名时间");
@@ -185,7 +324,7 @@ class ActivityController extends BaseController
 
     public function actionOffline($id)
     {
-        //$id=Utils::decryptId($id,Constants::ENC_TYPE_ONLINE_ACTIVITY);
+        $id=Utils::decryptId($id,Constants::ENC_TYPE_ACTIVITY);
 
         $user_id=\Yii::$app->user->id;
 
@@ -199,8 +338,8 @@ class ActivityController extends BaseController
         $address=$this->getParam('address');
         $benefit_walk=$this->getParam('benefit_walk');
 
-        $offline_activity=OfflineActivity::find()->where(['id'=>$id])->one();
-        $activity=$offline_activity->activity;
+        $activity=Activity::find()->where(['id'=>$id])->one();
+        $offline_activity=$activity->offlineActivities;
 
         if(empty($offline_activity)){
             throw new ErrorException("无该线下活动");
