@@ -11,6 +11,7 @@
 
 
 <!--[if !IE]> -->
+<?php $this->registerJs("var imgUrl='" . \common\util\Utils::getImgUrlPrefix() . "';",\yii\web\View::POS_BEGIN);?>
 
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
@@ -63,7 +64,10 @@
      in a larger detailed modal dialog -->
 
 <script src="/component/assets/js/bootstrap-wysiwyg.min.js"></script>
-
+<script type="text/javascript" src="/component/assets/js/module.min.js"></script>
+<script type="text/javascript" src="/component/assets/js/hotkeys.min.js"></script>
+<script type="text/javascript" src="/component/assets/js/uploader.min.js"></script>
+<script type="text/javascript" src="/component/assets/js/simditor.js"></script>
 <!-- optionally if you need a theme like font awesome theme you can include
     it as mentioned below -->
 <script src="/themes/fa/theme.js"></script>

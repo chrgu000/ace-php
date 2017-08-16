@@ -62,7 +62,7 @@ class UploadController extends Controller {
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $model = new FileUploadForm();
         if( \Yii::$app->request->isPost ) {
-            $model->file = UploadedFile::getInstanceByName( 'file' );
+            $model->file = UploadedFile::getInstanceByName( 'file_data' );
             $model->type = \Yii::$app->request->post( 'type' );
             $savedPath = $model->save();
             if( $savedPath ) {
@@ -96,6 +96,29 @@ class UploadController extends Controller {
                     $message = $error;
                 }
                 echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($funcNum, false, '$message');</script>";
+            }
+        }
+    }
+
+    /**
+     * simditor
+     */
+    public function actionSimUpload(){
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $model = new FileUploadForm();
+        if( \Yii::$app->request->isPost ) {
+            $model->file = UploadedFile::getInstanceByName( 'fileData' );
+            $model->type = Constants::UPLOAD_TYPE_LIVE;
+            $savedPath = $model->save();
+            if( $savedPath ) {
+                return [
+                    'success' => true,
+                    'file_path' => $savedPath,
+                ];
+            }else{
+                return array (
+                    'error' => implode( ";", array_values( $model->getFirstErrors() ) )
+                );
             }
         }
     }

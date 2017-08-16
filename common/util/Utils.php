@@ -155,7 +155,7 @@ class Utils {
      * 获取后端图片渲染前缀
      */
     public static function getImgUrlPrefix() {
-        $imgPrefix = \Yii::$app->params['stv']['imgPrefix'];
+        $imgPrefix = \Yii::$app->params['alibc']['imgPrefix'];
         return $imgPrefix;
     }
 

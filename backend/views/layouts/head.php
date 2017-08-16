@@ -42,7 +42,7 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 
-    <script src="/component/assets/js/ace-extra.min.js"></script>
+<!--    <script src="/component/assets/js/ace-extra.min.js"></script>-->
 
     <script type="text/javascript">
         window.jQuery || document.write("<script src='/component/assets/js/jquery-2.0.3.min.js'>"+"<"+"script>");
@@ -60,6 +60,7 @@
         if("ontouchend" in document) document.write("<script src='/component/assets/js/jquery.mobile.custom.min.js'>"+"<"+"script>");
     </script>
 
+    <link rel="stylesheet" type="text/css" href="/component/assets/css/simditor.css" />
     <!--[if lt IE 9]>
     <script src="/component/assets/js/html5shiv.js"></script>
     <script src="/component/assets/js/respond.min.js"></script>

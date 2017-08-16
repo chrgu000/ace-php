@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use common\util\Constants;
 use Yii;
 use common\models\Activity;
 use backend\models\ActivitySearch;
+use yii\base\UserException;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -57,7 +59,24 @@ class ActivityController extends Controller
 
         if (\Yii::$app->request->isPost) {
             $post = \Yii::$app->request->post();
-
+            $model->title = $post['title'];
+            $model->en_title = $post['en_title'];
+            $model->location = $post['city'];
+            $model->en_location = $post['en_city'];
+            $model->price = $post['price'];
+            $model->start_time = strtotime($post['start_time']);
+            $model->end_time = strtotime($post['join_end_time']);
+            $model->desc = $post['activity_detail'];
+            if(array_key_exists('filePath',$post)){
+                $model->cover = implode(Constants::IMG_DELIMITER,$post['filePath']);
+            }else{
+                $model->cover = '';
+            }
+            if($model->save()){
+                return 1;
+            }else{
+                throw new UserException(implode('|',$model->getFirstErrors()));
+            }
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -75,8 +94,26 @@ class ActivityController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return 1;
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            $model->title = $post['title'];
+            $model->en_title = $post['en_title'];
+            $model->location = $post['city'];
+            $model->en_location = $post['en_city'];
+            $model->price = $post['price'];
+            $model->start_time = strtotime($post['start_time']);
+            $model->end_time = strtotime($post['join_end_time']);
+            $model->desc = $post['activity_detail'];
+            if(array_key_exists('filePath',$post)){
+                $model->cover = implode(Constants::IMG_DELIMITER,$post['filePath']);
+            }else{
+                $model->cover = '';
+            }
+            if($model->save()){
+                return 1;
+            }else{
+                throw new UserException(implode('|',$model->getFirstErrors()));
+            }
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -93,8 +130,7 @@ class ActivityController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
+        return 1;
     }
 
     /**

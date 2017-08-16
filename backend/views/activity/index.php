@@ -42,8 +42,7 @@
                             <tbody>
                             <?php foreach($dataProvider->getModels() as $model){ ?>
                                 <tr>
-                                                                    <td>$model->id</td>
-                                <td>$model->topic_id</td>
+                                <td>$model->id</td>
                                 <td>$model->cover</td>
                                 <td>$model->title</td>
                                 <td>$model->en_title</td>
