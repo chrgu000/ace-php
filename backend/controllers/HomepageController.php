@@ -8,7 +8,7 @@ use backend\models\HomepageSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\data\Pagination;
 /**
  * HomepageController implements the CRUD actions for Homepage model.
  */
@@ -37,22 +37,12 @@ class HomepageController extends Controller
     {
         $searchModel = new HomepageSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $pagination = new Pagination(['totalCount' => $dataProvider->query->count()]);
+        $dataProvider->setPagination($pagination);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Homepage model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+            'pagination' => $pagination
         ]);
     }
 
@@ -65,8 +55,11 @@ class HomepageController extends Controller
     {
         $model = new Homepage();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            $model->load($post);
+            $model->save();
+            return 1;
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -84,8 +77,11 @@ class HomepageController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if (\Yii::$app->request->isPost) {
+            $post = \Yii::$app->request->post();
+            $model->load($post);
+            $model->save();
+            return 1;
         } else {
             return $this->render('update', [
                 'model' => $model,

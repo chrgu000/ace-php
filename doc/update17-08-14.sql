@@ -1,3 +1,44 @@
+create table if not exists `online_activity` (
+  id int unsigned not null auto_increment,
+  activity_id int unsigned not null ,
+  location varchar(100), -- 城市
+  en_location varchar(100),
+  end_time int unsigned ,
+  people_num int unsigned default 0, -- 报名人数
+  `desc` text , -- 简介
+  en_desc text ,  -- 英文简介
+  price decimal(10,2), -- 报名价格
+  benefit_walk_min smallint unsigned default 0,
+  benefit_run_min smallint unsigned default 0,
+  benefit_bike_min smallint unsigned default 0,
+  benefit_walk_max smallint unsigned default 0, -- 益行 公里数 若为0 则表示 没有此行动
+  benefit_run_max smallint unsigned default 0, -- 益跑 公里数 若为0 则表示 没有此行动
+  benefit_bike_max smallint unsigned default 0, -- 益骑 公里数 若为0 则表示 没有此行动
+  created_at int unsigned,
+  updated_at int unsigned,
+  foreign key(activity_id) references activity(id) on delete cascade on update cascade,
+  primary key(id)
+)engine=InnoDB default charset=utf8;
+
+create table if not exists `offline_activity` (
+  id int unsigned not null auto_increment,
+  activity_id int unsigned not null ,
+  location varchar(100), -- 城市
+  en_location varchar(100),
+  end_time int unsigned ,
+  people_num int unsigned default 0, -- 报名人数
+  `desc` text , -- 简介
+  en_desc text ,  -- 英文简介
+  price decimal(10,2), -- 报名价格
+  benefit_walk_min smallint unsigned default 0,
+  benefit_walk_max smallint unsigned default 0, -- 益行 公里数 若为0 则表示 没有此行动
+  created_at int unsigned,
+  updated_at int unsigned,
+  foreign key(activity_id) references activity(id) on delete cascade on update cascade,
+  primary key(id)
+)engine=InnoDB default charset=utf8;
+
+
 create table if not exists `online` (
   id int unsigned not null auto_increment,
   user_id int unsigned not null ,
@@ -82,44 +123,5 @@ create table if not exists `order` (
 	foreign key(buyer_id) references user(id) on delete SET NULL on update cascade
 )engine=InnoDB default charset=utf8;
 
-create table if not exists `online_activity` (
-  id int unsigned not null auto_increment,
-  activity_id int unsigned not null ,
-  location varchar(100), -- 城市
-  en_location varchar(100),
-  end_time int unsigned ,
-  people_num int unsigned default 0, -- 报名人数
-  `desc` text , -- 简介
-  en_desc text ,  -- 英文简介
-  price decimal(10,2), -- 报名价格
-  benefit_walk_min smallint unsigned default 0,
-  benefit_run_min smallint unsigned default 0,
-  benefit_bike_min smallint unsigned default 0,
-  benefit_walk_max smallint unsigned default 0, -- 益行 公里数 若为0 则表示 没有此行动
-  benefit_run_max smallint unsigned default 0, -- 益跑 公里数 若为0 则表示 没有此行动
-  benefit_bike_max smallint unsigned default 0, -- 益骑 公里数 若为0 则表示 没有此行动
-  created_at int unsigned,
-  updated_at int unsigned,
-  foreign key(activity_id) references activity(id) on delete cascade on update cascade,
-  primary key(id)
-)engine=InnoDB default charset=utf8;
-
-create table if not exists `offline_activity` (
-  id int unsigned not null auto_increment,
-  activity_id int unsigned not null ,
-  location varchar(100), -- 城市
-  en_location varchar(100),
-  end_time int unsigned ,
-  people_num int unsigned default 0, -- 报名人数
-  `desc` text , -- 简介
-  en_desc text ,  -- 英文简介
-  price decimal(10,2), -- 报名价格
-  benefit_walk_min smallint unsigned default 0,
-  benefit_walk_max smallint unsigned default 0, -- 益行 公里数 若为0 则表示 没有此行动
-  created_at int unsigned,
-  updated_at int unsigned,
-  foreign key(activity_id) references activity(id) on delete cascade on update cascade,
-  primary key(id)
-)engine=InnoDB default charset=utf8;
 
 

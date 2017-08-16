@@ -1,3 +1,8 @@
+<?php
+use common\util\Constants;
+/** @var $model \common\models\Activity */
+
+?>
     <div class="main-content">
         <div class="breadcrumbs" id="breadcrumbs">
             <script type="text/javascript">
@@ -16,12 +21,12 @@
             <div class="row">
                 <div class="col-xs-12">
                     <form id="create-model-form" class="form-horizontal" role="form">
+                        <input type="hidden" id="activity_id" value="<?= $model->id ?>">
                         <div class="form-group">
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" >活动名称:</label>
-
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input type="text" name="title" class="col-xs-12 col-sm-6">
+                                    <input type="text" name="title" value="<?= $model->title?>" class="col-xs-12 col-sm-6">
                                 </div>
                             </div>
                         </div>
@@ -32,7 +37,7 @@
 
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input type="text" name="en_title" class="col-xs-12 col-sm-6">
+                                    <input type="text" name="en_title" value="<?= $model->en_title?>" class="col-xs-12 col-sm-6">
                                 </div>
                             </div>
                         </div>
@@ -43,7 +48,7 @@
 
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input type="text" name="city" class="col-xs-12 col-sm-6">
+                                    <input type="text" name="city" value="<?= $model->location?>" class="col-xs-12 col-sm-6">
                                 </div>
                             </div>
                         </div>
@@ -54,7 +59,7 @@
 
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input type="text" name="en_city" class="col-xs-12 col-sm-6">
+                                    <input type="text" name="en_city" value="<?= $model->en_location?>" class="col-xs-12 col-sm-6">
                                 </div>
                             </div>
                         </div>
@@ -65,7 +70,7 @@
 
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input type="number" name="price" class="col-xs-12 col-sm-6">
+                                    <input type="number" name="price" value="<?= $model->price?>" class="col-xs-12 col-sm-6">
                                 </div>
                             </div>
                         </div>
@@ -76,7 +81,7 @@
 
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input value="" name="start_time" class="col-xs-12 col-sm-6 date-picker" >
+                                    <input name="start_time" value="<?php if($model->start_time){echo date('Y-m-d',$model->start_time);}?>" class="col-xs-12 col-sm-6 date-picker" >
                                 </div>
                             </div>
                         </div>
@@ -87,7 +92,7 @@
 
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input value=""  name="join_end_time" class="col-xs-12 col-sm-6 date-picker" >
+                                    <input value="<?php if($model->end_time){echo date('Y-m-d',$model->end_time);}?>"  name="join_end_time" class="col-xs-12 col-sm-6 date-picker" >
                                 </div>
                             </div>
                         </div>
@@ -96,11 +101,9 @@
                         <div class="form-group">
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" >活动详情:</label>
                             <div class="clearfix col-sm-9">
-                                <textarea id="editor" name="activity_detail" placeholder="" autofocus></textarea>
+                                <textarea id="editor"  name="activity_detail" placeholder="" autofocus><?= $model->desc?></textarea>
                             </div>
                         </div>
-
-
 
                         <div class="form-group">
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" >封面:</label>
@@ -172,6 +175,22 @@
             format : 'Y-m-d',
             timepicker: false,
         });
+        var $pic = '<?php echo $model->cover;?>';
+        var pics = $pic.split('||');
+
+        var pic = [];
+        var picConfig = [];
+        for (val in pics){
+            if(pics[val] == ''){
+                continue;
+            }
+            pic.push("<img src='" + imgUrl + pics[val] +"' data-imgSrc='"+ pics[val] +"' class='file-preview-image' alt='Desert' title='Desert' style='width:auto;height:160px;'>");
+            picConfig.push({
+                url:'/upload/file-delete',
+                extra: { "_csrf-backend" : $('meta[name="csrf-token"]').attr('content') },
+            });
+        }
+
         $("#input-id").fileinput({
             showCaption: false,
             maxFileSize: 1024 * 2,
@@ -179,14 +198,21 @@
             browseLabel: "Pick Image",
             browseOnZoneClick : false,
             uploadUrl:'/upload/index',
-            maxFileCount : 2,
+            initialPreview: pic,
+            maxFileCount : 4,
+            deleteUrl : 'upload/delete-file',
+            overwriteInitial: false,
+            validateInitialCount: true,
             msgFilesTooMany : '上传数量超过限制',
             uploadExtraData:{
                 "type" : 2 ,
                 "_csrf-backend" : $('meta[name="csrf-token"]').attr('content'),
             },
+            initialPreviewConfig:picConfig,
         }).on("fileuploaded",function(event,data,previewId,index){
             $('#'+previewId).find('img').attr('data-imgSrc',data.response.url);
+        }).on("filepredelete",function(event, key, jqXHR, data){
+            console.log('filepredelete');
         });
         $('#submit').click(function(){
             $('#create-model-form').submit();
@@ -243,12 +269,15 @@
 
             submitHandler: function (form) {
                 var filePath = [];
+                $('.kv-zoom-cache').each(function() {
+                    $(this).find('img').removeAttr('data-imgSrc');
+                });
                 $('[data-imgSrc]').each(function() {
                     filePath.push($(this).attr('data-imgSrc'));
                 });
                 $('.main-content').showLoading();
                 $('#create-model-form').ajaxSubmit({
-                    url:'create',
+                    url:'update?id=' + $('#activity_id').val(),
                     dataType:'json',
                     type:'post',
                     enctype: 'multipart/form-data',
