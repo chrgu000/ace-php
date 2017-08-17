@@ -174,6 +174,9 @@ use common\util\Constants;
             lang:'ch',
             format : 'Y-m-d',
             timepicker: false,
+            scrollMonth:false,
+            scrollTime:false,
+            scrollInput:false,
         });
         var $pic = '<?php echo $model->cover;?>';
         var pics = $pic.split('||');

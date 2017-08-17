@@ -171,6 +171,9 @@
             lang:'ch',
             format : 'Y-m-d',
             timepicker: false,
+            scrollMonth:false,
+            scrollTime:false,
+            scrollInput:false,
         });
         $("#input-id").fileinput({
             showCaption: false,
