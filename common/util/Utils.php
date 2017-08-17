@@ -186,8 +186,10 @@ class Utils {
         if( empty( $img ) ) {
             return '';
         }
-        $img = self::getImgFullUrl($img);
-        return "<div class='img-preview " . ($small ? 'img-preview-sm' : '') . "'><img src='{$img}'></div>";
+        $img = self::getFullImageUrl($img);
+        return "<a href='{$img}' data-rel='colorbox' >
+                   <img height='60' src='{$img}'>
+                </a>";
     }
 
     public static function renderPreviewImgs($imgs, $small = false, $max = null) {

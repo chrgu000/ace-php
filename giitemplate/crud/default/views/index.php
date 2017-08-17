@@ -131,3 +131,36 @@ echo "<?php\n";
         })
     });
 </script>
+
+<?= '<?'?>php $this->beginBlock('scripts')?>
+    <script src="/plugins/colorbox/jquery.colorbox-min.js"></script>
+
+    <link media="screen" rel="stylesheet" href="/plugins/colorbox/colorbox.css">
+
+    <script>
+        //图片预览
+        var colorbox_params = {
+            rel: 'colorbox',
+            reposition:true,
+            scalePhotos:true,
+            scrolling:false,
+            previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+            next:'<i class="ace-icon fa fa-arrow-right"></i>',
+            close:'&times;',
+            current:'{current} of {total}',
+            maxWidth:'100%',
+            maxHeight:'100%',
+            onOpen:function(){
+                $overflow = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+            },
+            onClosed:function(){
+                document.body.style.overflow = $overflow;
+            },
+            onComplete:function(){
+                $.colorbox.resize();
+            }
+        };
+        $('[data-rel="colorbox"]').colorbox(colorbox_params);
+    </script>
+<?= '<?'?>php $this->endBlock('scripts')?>

@@ -1,4 +1,5 @@
 <?php
+use common\util\Utils;
 ?>
 <div class="main-content">
     <div class="breadcrumbs" id="breadcrumbs">
@@ -42,12 +43,14 @@
                             <tbody>
                             <?php foreach($dataProvider->getModels() as $model){ ?>
                                 <tr>
-                                <td>$model->id</td>
-                                <td>$model->cover</td>
-                                <td>$model->title</td>
-                                <td>$model->en_title</td>
-                                <td>$model->location</td>
-                                <td>$model->en_location</td>
+                                <td><?=$model->id?></td>
+                                <td>
+                                    <?= Utils::renderPreviewImgs($model->cover)?>
+                                </td>
+                                <td><?=$model->title?></td>
+                                <td><?=$model->en_title?></td>
+                                <td><?=$model->location?></td>
+                                <td><?=$model->en_location?></td>
                                     <td>
                                         <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
                                             <a class="green" href="update?id=<?= $model->id?>">
@@ -123,3 +126,35 @@
         })
     });
 </script>
+<?php $this->beginBlock('scripts')?>
+    <script src="/plugins/colorbox/jquery.colorbox-min.js"></script>
+
+    <link media="screen" rel="stylesheet" href="/plugins/colorbox/colorbox.css">
+
+    <script>
+        //图片预览
+        var colorbox_params = {
+            rel: 'colorbox',
+            reposition:true,
+            scalePhotos:true,
+            scrolling:false,
+            previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+            next:'<i class="ace-icon fa fa-arrow-right"></i>',
+            close:'&times;',
+            current:'{current} of {total}',
+            maxWidth:'100%',
+            maxHeight:'100%',
+            onOpen:function(){
+                $overflow = document.body.style.overflow;
+                document.body.style.overflow = 'hidden';
+            },
+            onClosed:function(){
+                document.body.style.overflow = $overflow;
+            },
+            onComplete:function(){
+                $.colorbox.resize();
+            }
+        };
+        $('[data-rel="colorbox"]').colorbox(colorbox_params);
+    </script>
+<?php $this->endBlock('scripts')?>
