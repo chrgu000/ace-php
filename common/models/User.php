@@ -161,7 +161,35 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
         return [
             'id' => function(){
                 return Utils::encryptId($this->id,Constants::ENC_TYPE_USER);
-            },'username','nickname','type','created_at'
+            },'username','nickname','type','created_at',
+            'step_number'=>function(){
+                $today = strtotime(date("Y-m-d"),time());
+
+                $end = $today+60*60*24;
+
+                $model=Walk::find()->where(['user_id'=>$this->id])->andWhere(['>=','created_at',$today])->andWhere(['<','created_at',$end])->one();
+
+                if (empty($model)){
+                    return 0;
+                }
+                else{
+                    return $model->count;
+                }
+            },
+            'cal'=>function(){
+                $today = strtotime(date("Y-m-d"),time());
+
+                $end = $today+60*60*24;
+
+                $model=Walk::find()->where(['user_id'=>$this->id])->andWhere(['>=','created_at',$today])->andWhere(['<','created_at',$end])->one();
+
+                if (empty($model)){
+                    return 0;
+                }
+                else{
+                    return $model->count*0.04;
+                }
+            }
         ];
     }
 

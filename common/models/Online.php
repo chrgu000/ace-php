@@ -105,4 +105,15 @@ class Online extends \yii\db\ActiveRecord
     {
         return $this->hasOne(OnlineActivity::className(), ['id' => 'online_activity_id']);
     }
+
+    public function fields()
+    {
+        return [
+            'activity_type'=>function(){
+                return 0;
+            },
+            'status',
+            'activity'=>'onlineActivity'
+        ];
+    }
 }

@@ -116,6 +116,12 @@ class Activity extends \yii\db\ActiveRecord
             'en_title',
             'start_time',
             'people_num',
+            'online_activity'=>function(){
+                return OnlineActivity::find()->where(['activity_id'=>$this->id])->count();
+            },
+            'offline_activity'=>function(){
+                return OfflineActivity::find()->where(['activity_id'=>$this->id])->count();
+            },
             //'online_activity'=>'onlineActivities',
             //'offline_activity'=>'offlineActivities',
         ];

@@ -12,6 +12,7 @@ use common\models\Lesson;
 use common\models\User;
 use common\models\UserCoinLog;
 use common\models\Vod;
+use common\service\MyService;
 use common\util\Constants;
 use common\util\Utils;
 use common\util\YunPianManager;
@@ -89,16 +90,20 @@ class UserController extends BaseController
      * @apiParam {string} username 手机号或则邮箱
      * @apiParam {string} password 密码
      * @apiParam {string} code 验证码(发手机或则邮箱)
+     * @apiParam {string} step_number 步数
+     *
      * @apiSuccessExample SuccessExample
-     * {
-     * "id": "xlzgw",
-     * "username": "15167813170",
-     * "nickname": "15167813170",
-     * "type": 0,
-     * "created_at": 1502090875,
-     * "access_token": "5988167bdedad_1502090875",
-     * "api_code": 200
-     * }
+        {
+        "id": "xlzgw",
+        "username": "18868343306",
+        "nickname": "18868343306",
+        "type": 0,
+        "created_at": 1502703532,
+        "step_number": 2000,
+        "cal": 80,
+        "access_token": "59916facdc278_1502703532",
+        "api_code": 200
+        }
      */
     public function actionOauths()
     {
@@ -150,24 +155,31 @@ class UserController extends BaseController
     }
 
     /**
-     * @api {get} /users/index 获取登录用户信息
+     * @api {post} /users/index 获取登录用户信息
      *
      * @apiGroup user
+     *
+     * @apiParam {string} step_number 步数
+     *
      * @apiPermission token
      * @apiSuccessExample SuccessExample 同用户注册接口
-     * {
-     * "id": "xlzgw",
-     * "username": "15167813170",
-     * "nickname": "15167813170",
-     * "type": 0,
-     * "created_at": 1502090875,
-     * "access_token": "5988167bdedad_1502090875",
-     * "api_code": 200
-     * }
+        {
+        "id": "xlzgw",
+        "username": "18868343306",
+        "nickname": "18868343306",
+        "type": 0,
+        "created_at": 1502703532,
+        "step_number": 2000,
+        "cal": 80,
+        "access_token": "59916facdc278_1502703532",
+        "api_code": 200
+        }
      */
     public function actionIndex()
     {
+        $step_number=$this->getParam('step_number',0);
         $user = \Yii::$app->user->identity;
+        MyService::document($step_number);
         return $user->toArray([], ['access_token']);
     }
 
@@ -239,6 +251,7 @@ class UserController extends BaseController
      * @apiGroup user
      * @apiParam {string} username 用户名称
      * @apiParam {string} password 密码
+     * @apiParam {string} step_number 步数
      *
      * @apiSuccessExample SuccessExample
      * 同用户注册
@@ -252,6 +265,8 @@ class UserController extends BaseController
             throw new UserException('用户名不存在');
         }
         if($user->validatePassword($password)){
+            $step_number=$this->getParam('step_number',0);
+            MyService::document($step_number);
             return $user->toArray([],['access_token']);
         }else{
             throw new UserException('用户密码不正确');
@@ -265,6 +280,7 @@ class UserController extends BaseController
      * @apiParam {string} username 手机号或则邮箱
      * @apiParam {string} password 密码
      * @apiParam {string} code 验证码(发手机或则邮箱)
+     * @apiParam {string} step_number 步数
      * @apiSuccessExample SuccessExample
      * 同用户注册
      */
@@ -299,6 +315,8 @@ class UserController extends BaseController
         $user = User::findOne(['username' => $username]);
         $user->setPassword($password);
         if($user->save()){
+            $step_number=$this->getParam('walk',0);
+            MyService::document($step_number);
             return $user->toArray([],['access_token']);
         }else{
             throw new UserException(implode('|',$user->getFirstErrors()));

@@ -51,11 +51,13 @@ class ActivityController extends BaseController
         {
         "id": "d70r7",
         "topic_id": "rdy81",
-        "cover": "test",
+        "cover": "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4276212331,3046393127&fm=26&gp=0.jpg",
         "title": "test",
-        "en_title": null,
+        "en_title": "test",
         "start_time": null,
-        "people_num": 2
+        "people_num": 0,
+        "online_activity": "1",
+        "offline_activity": "1"
         }
         ]
         }
@@ -95,11 +97,13 @@ class ActivityController extends BaseController
         {
         "id": "d70r7",
         "topic_id": "rdy81",
-        "cover": "test",
+        "cover": "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=4276212331,3046393127&fm=26&gp=0.jpg",
         "title": "test",
-        "en_title": null,
+        "en_title": "test",
         "start_time": null,
-        "people_num": 2
+        "people_num": 0,
+        "online_activity": "1",
+        "offline_activity": "1"
         }
         ],
         "api_code": 200
@@ -293,6 +297,8 @@ class ActivityController extends BaseController
      *
      * @apiGroup activity
      *
+     * @apiParam {string} type 0 个人报名 1 企业支持 2 媒体支持 3 战略合作
+     *
      * @apiParam {string} benefit_walk 益行公里数
      *
      * @apiParam {string} mobile 手机号
@@ -302,8 +308,8 @@ class ActivityController extends BaseController
      * @apiParam {string} email 邮箱
      * @apiParam {string} address 地址
      *
-     * @apiParam {int} gender 性别 0女 1男
-     * @apiParam {string} document_type 证件烈性
+     * @apiParam {int} gender 性别 0 女 1 男
+     * @apiParam {string} document_type 证件类型
      * @apiParam {string} idcard 证件号码
      * @apiParam {string} company 单位
      * @apiParam {string} position 职称

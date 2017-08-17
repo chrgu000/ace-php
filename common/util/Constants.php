@@ -44,6 +44,14 @@ class Constants{
 
     const OFFLINE_TYPE_STRATEGIC=3;
 
+    const RECRUIT_TYPE_STAR=0;
+
+    const RECRUIT_TYPE_ENTERPRISE=1;
+
+    const RECRUIT_TYPE_MEDIA=2;
+
+    const RECRUIT_TYPE_GROUP=3;
+
 
 
     public static $UPLOAD_TYPES = [

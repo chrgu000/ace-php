@@ -6,6 +6,8 @@ use common\util\Constants;
 use common\util\Utils;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\ArrayHelper;
+
 /**
  * This is the model class for table 'run_group'.
  *
@@ -155,6 +157,51 @@ class RunGroup extends \yii\db\ActiveRecord
             'benefit_walk',
             'benefit_run',
             'benefit_bike',
+            'join'=>function(){
+                return RunGroupJoin::find()->where(['user_id'=>\Yii::$app->user->id,'run_group_id'=>$this->id])->count();
+            },
+            'joiner_number'=>function(){
+                return RunGroupJoin::find()->where(['run_group_id'=>$this->id])->count();
+            },
+            'joiner_step_number'=>function(){
+                $runners=RunGroupJoin::find()->where(['run_group_id'=>$this->id])->all();
+                $sum=0;
+                foreach ($runners as $runner){
+
+                    $today = strtotime(date("Y-m-d"),time());
+
+                    $end = $today+60*60*24;
+
+                    $model=Walk::find()->where(['user_id'=>$runner->user_id])->andWhere(['>=','created_at',$today])->andWhere(['<','created_at',$end])->one();
+
+                    if ($model){
+                        $sum+=$model->count;
+                    }
+                }
+                return $sum;
+            },
+
+        ];
+    }
+
+    public function extraFields()
+    {
+        return [
+            'top'=>function(){
+                $runners=RunGroupJoin::find()->where(['run_group_id'=>$this->id])->all();
+                $runnerIds=ArrayHelper::getColumn($runners,'user_id');
+
+                $today = strtotime(date("Y-m-d"),time());
+
+                $end = $today+60*60*24;
+
+                $data=Walk::find()->where(['user_id'=>$runnerIds])->andWhere(['>=','created_at',$today])->andWhere(['<','created_at',$end])->orderBy('count Desc')->limit('6')->all();
+
+                foreach ($data as $val){
+                    $val->group_id=$this->id;
+                }
+                return $data;
+            }
         ];
     }
 }

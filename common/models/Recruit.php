@@ -5,12 +5,10 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 /**
- * This is the model class for table "offline".
+ * This is the model class for table "recruit".
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $activity_id
- * @property integer $offline_activity_id
  * @property integer $status
  * @property integer $type
  * @property string $document_type
@@ -18,6 +16,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $gender
  * @property string $company
  * @property string $position
+ * @property string $remark
  * @property string $enterprise_name
  * @property string $profile
  * @property string $number
@@ -27,17 +26,14 @@ use yii\behaviors\TimestampBehavior;
  * @property string $mobile
  * @property string $email
  * @property string $address
- * @property string $remark
- * @property integer $benefit_walk
  * @property integer $created_at
  * @property integer $updated_at
  *
  * @property User $user
- * @property Activity $activity
- * @property OfflineActivity $offlineActivity
  */
-class Offline extends \yii\db\ActiveRecord
+class Recruit extends \yii\db\ActiveRecord
 {
+
     public function behaviors()
     {
         return [
@@ -49,7 +45,7 @@ class Offline extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'offline';
+        return 'recruit';
     }
 
     /**
@@ -58,15 +54,13 @@ class Offline extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'activity_id', 'offline_activity_id'], 'required'],
-            [['user_id', 'activity_id', 'offline_activity_id', 'status', 'type', 'gender', 'benefit_walk', 'created_at', 'updated_at'], 'integer'],
-            [['profile', 'address', 'remark'], 'string'],
+            [['user_id'], 'required'],
+            [['user_id', 'status', 'type', 'gender', 'created_at', 'updated_at'], 'integer'],
+            [['remark', 'profile', 'address'], 'string'],
             [['document_type', 'idcard', 'company', 'position', 'enterprise_name', 'number', 'country_area', 'host_city'], 'string', 'max' => 255],
             [['name', 'email'], 'string', 'max' => 100],
             [['mobile'], 'string', 'max' => 50],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => Activity::className(), 'targetAttribute' => ['activity_id' => 'id']],
-            [['offline_activity_id'], 'exist', 'skipOnError' => true, 'targetClass' => OfflineActivity::className(), 'targetAttribute' => ['offline_activity_id' => 'id']],
         ];
     }
 
@@ -78,8 +72,6 @@ class Offline extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'activity_id' => 'Activity ID',
-            'offline_activity_id' => 'Offline Activity ID',
             'status' => 'Status',
             'type' => 'Type',
             'document_type' => 'Document Type',
@@ -87,6 +79,7 @@ class Offline extends \yii\db\ActiveRecord
             'gender' => 'Gender',
             'company' => 'Company',
             'position' => 'Position',
+            'remark' => 'Remark',
             'enterprise_name' => 'Enterprise Name',
             'profile' => 'Profile',
             'number' => 'Number',
@@ -96,8 +89,6 @@ class Offline extends \yii\db\ActiveRecord
             'mobile' => 'Mobile',
             'email' => 'Email',
             'address' => 'Address',
-            'remark' => 'Remark',
-            'benefit_walk' => 'Benefit Walk',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -109,32 +100,5 @@ class Offline extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getActivity()
-    {
-        return $this->hasOne(Activity::className(), ['id' => 'activity_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getOfflineActivity()
-    {
-        return $this->hasOne(OfflineActivity::className(), ['id' => 'offline_activity_id']);
-    }
-
-    public function fields()
-    {
-        return [
-            'activity_type'=>function(){
-                return 1;
-            },
-            'status',
-            'activity'=>'offlineActivity',
-        ];
     }
 }

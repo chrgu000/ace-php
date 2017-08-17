@@ -59,7 +59,7 @@ return [
             'rules' => [
                 'OPTIONS <any:.*>' => 'v1/api/response',
                 // 获取用户资料
-                'GET v1/users/index' => 'v1/user/index',
+                'POST v1/users/index' => 'v1/user/index',
                 // 用户注册
                 'POST v1/users/oauths' => 'v1/user/oauths',
                 // 发送验证码
@@ -95,10 +95,25 @@ return [
 
                 // 获取跑团详情
                 'GET v1/group/show/<id:.+>' => 'v1/run-group/show',
-
-
                 // 创建跑团
                 'POST v1/group/create' => 'v1/run-group/create',
+                // 加入跑团
+                'POST v1/group/join/<id:.+>' => 'v1/run-group/join',
+                // 加入跑团
+                'POST v1/group/praise/<id:.+>/<user_id:.+>' => 'v1/run-group/praise',
+
+                // 官方招募
+                'POST v1/recruit' => 'v1/recruit/create',
+
+
+                // 我的报名
+                'GET v1/my/activity/index' => 'v1/my/activity',
+                // 我的跑团
+                'GET v1/my/group/index' => 'v1/my/run-group',
+
+
+                // 外链
+                'GET v1/link' => 'v1/link/link',
 
 
             ],
