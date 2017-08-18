@@ -38,38 +38,7 @@
                         </div>
                         <div class="space-8"></div>
 
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >活动所在城市:</label>
 
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    <input type="text" name="city" class="col-xs-12 col-sm-6">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-8"></div>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >城市英文名称:</label>
-
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    <input type="text" name="en_city" class="col-xs-12 col-sm-6">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-8"></div>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >活动报名费:</label>
-
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    <input type="number" name="price" class="col-xs-12 col-sm-6">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-8"></div>
 
                         <div class="form-group">
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">活动开始时间:</label>
@@ -81,24 +50,6 @@
                             </div>
                         </div>
                         <div class="space-8"></div>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">报名结束时间:</label>
-
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    <input value=""  name="join_end_time" class="col-xs-12 col-sm-6 date-picker" >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-8"></div>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >活动详情:</label>
-                            <div class="clearfix col-sm-9">
-                                <textarea id="editor" name="activity_detail" placeholder="" autofocus></textarea>
-                            </div>
-                        </div>
 
 
 
@@ -129,38 +80,7 @@
 <?php $this->beginBlock('scripts')?>
 
     <script>
-        var editor = new Simditor({
-            textarea: $('#editor'),
-            toolbar: [
-                'title',
-                'bold',
-                'italic',
-                'underline',
-                'strikethrough',
-                'fontScale',
-                'color',
-                'ol'  ,
-                'ul',
-                'blockquote',
-                'code'   ,
-                'table',
-                'link',
-                'image',
-                'hr'    ,
-                'indent',
-                'outdent',
-                'alignment',
-            ],
-            upload: {
-                url: '/upload/sim-upload', //文件上传的接口地址
-                params: {
-                    type : 2,
-                    '_csrf-backend' : $('meta[name="csrf-token"]').attr('content'),
-                }, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
-                connectionCount: 3,
-                leaveConfirm: '正在上传文件',
-            },
-        });
+
         $(".chosen-select").chosen({
             no_results_text:'没有找到你想要的',
             allow_single_deselect:true,

@@ -2,19 +2,17 @@
 
 namespace backend\controllers;
 
-use common\util\Constants;
 use Yii;
-use common\models\Activity;
-use backend\models\ActivitySearch;
-use yii\base\UserException;
+use common\models\OfflineActivity;
+use backend\models\OfflineActivitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\Pagination;
 /**
- * ActivityController implements the CRUD actions for Activity model.
+ * OfflineActivityController implements the CRUD actions for OfflineActivity model.
  */
-class ActivityController extends Controller
+class OfflineActivityController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,12 +30,12 @@ class ActivityController extends Controller
     }
 
     /**
-     * Lists all Activity models.
+     * Lists all OfflineActivity models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ActivitySearch();
+        $searchModel = new OfflineActivitySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $pagination = new Pagination(['totalCount' => $dataProvider->query->count()]);
         $dataProvider->setPagination($pagination);
@@ -49,29 +47,16 @@ class ActivityController extends Controller
     }
 
     /**
-     * Creates a new Activity model.
+     * Creates a new OfflineActivity model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Activity();
+        $model = new OfflineActivity();
 
-        if (\Yii::$app->request->isPost) {
-            $post = \Yii::$app->request->post();
-            $model->title = $post['title'];
-            $model->en_title = $post['en_title'];
-            $model->start_time = strtotime($post['start_time']);
-            if(array_key_exists('filePath',$post)){
-                $model->cover = implode(Constants::IMG_DELIMITER,$post['filePath']);
-            }else{
-                $model->cover = '';
-            }
-            if($model->save()){
-                return 1;
-            }else{
-                throw new UserException(implode('|',$model->getFirstErrors()));
-            }
+        if (\Yii::$app->request->isPost && $this->innserSave($model)) {
+            return 1;
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -80,7 +65,7 @@ class ActivityController extends Controller
     }
 
     /**
-     * Updates an existing Activity model.
+     * Updates an existing OfflineActivity model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -89,21 +74,8 @@ class ActivityController extends Controller
     {
         $model = $this->findModel($id);
 
-        if (\Yii::$app->request->isPost) {
-            $post = \Yii::$app->request->post();
-            $model->title = $post['title'];
-            $model->en_title = $post['en_title'];
-            $model->start_time = strtotime($post['start_time']);
-            if(array_key_exists('filePath',$post)){
-                $model->cover = implode(Constants::IMG_DELIMITER,$post['filePath']);
-            }else{
-                $model->cover = '';
-            }
-            if($model->save()){
-                return 1;
-            }else{
-                throw new UserException(implode('|',$model->getFirstErrors()));
-            }
+        if (\Yii::$app->request->isPost && $this->innserSave($model)) {
+            return 1;
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -112,7 +84,7 @@ class ActivityController extends Controller
     }
 
     /**
-     * Deletes an existing Activity model.
+     * Deletes an existing OfflineActivity model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,22 +92,52 @@ class ActivityController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
         return 1;
     }
 
     /**
-     * Finds the Activity model based on its primary key value.
+     * Finds the OfflineActivity model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Activity the loaded model
+     * @return OfflineActivity the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Activity::findOne($id)) !== null) {
+        if (($model = OfflineActivity::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    private function innserSave($model){
+        $post = \Yii::$app->request->post();
+        /** @var OfflineActivity $model */
+        $model->activity_id = $post['activity_id'];
+        $model->location = $post['location'];
+        $model->en_location = $post['en_location'];
+        if(array_key_exists('end_time',$post)){
+            $model->end_time = strtotime($post['end_time']);
+        }
+        $model->price = $post['price'];
+        if(array_key_exists('min_walk',$post)){
+            $model->benefit_walk_min = $post['min_walk'];
+        }
+        if(array_key_exists('max_walk',$post)){
+            $model->benefit_walk_max = $post['max_walk'];
+        }
+        if(array_key_exists('desc',$post)){
+            $model->desc = $post['desc'];
+        }
+        if(array_key_exists('en_desc',$post)){
+            $model->en_desc = $post['en_desc'];
+        }
+        if($model->save()){
+            return 1;
+        }else {
+            dd($model->getFirstErrors());
         }
     }
 }

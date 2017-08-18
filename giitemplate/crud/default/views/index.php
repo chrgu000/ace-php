@@ -5,12 +5,8 @@
 $urlParams = $generator->generateUrlParams();
 $nameAttribute = $generator->getNameAttribute();
 /** @var $dataProvider \yii\data\ActiveDataProvider */
-use yii\helpers\Inflector;
-use yii\helpers\StringHelper;
 
-echo "<?php\n"."use yii\helpers\Html;";
-
-
+echo "<?php\n";
 
 ?>
 ?>
@@ -31,12 +27,12 @@ echo "<?php\n"."use yii\helpers\Html;";
         <div class="page-content">
             <div class="row">
                 <div class="col-xs-12">
-                    <h3 class="header smaller lighter blue"><?=StringHelper::basename($generator->modelClass)?>管理</h3>
+                    <h3 class="header smaller lighter blue">XXX管理</h3>
                     <p>
-                        <?= "<?= " ?>Html::a(<?= $generator->generateString('Create ' . Inflector::camel2words(StringHelper::basename($generator->modelClass))) ?>, ['create'], ['class' => 'btn btn-success']) ?>
+                        <a href="create" class="btn btn-success">创建XXX</a>
                     </p>
                     <div class="table-header">
-                        <?=StringHelper::basename($generator->modelClass)?>列表
+                        XXX列表
                     </div>
 
                     <div class="table-responsive">
@@ -58,11 +54,11 @@ echo "<?php\n"."use yii\helpers\Html;";
                                 <?php $i = 0;?>
                                 <?php foreach($generator->getColumnNames() as $name){?>
                                     <?php if($i++ > 6){break;} ?>
-                                    <td><?= "<?"?>= $model-><?=$name?>?></td>
+                                    <td><?= '<?='?>$model-><?=$name?>?></td>
                                 <?php }?>
                                 <td>
                                     <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                        <a class="green" href="/<?=strtolower(StringHelper::basename($generator->modelClass))?>/update?id=<?= "<?"?>= $model->id?>">
+                                        <a class="green" href="update?id=<?= "<?"?>= $model->id?>">
                                             <i class="icon-pencil bigger-130"></i>
                                         </a>
 
@@ -79,7 +75,7 @@ echo "<?php\n"."use yii\helpers\Html;";
 
                                             <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
                                                 <li>
-                                                    <a href="/<?=strtolower(StringHelper::basename($generator->modelClass))?>/update?id=<?= "<?"?>= $model->id?>" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                    <a href="update?id=<?= "<?"?>= $model->id?>" class="tooltip-success" data-rel="tooltip" title="Edit">
                                                         <span class="green">
                                                             <i class="icon-edit bigger-120"></i>
                                                         </span>
@@ -121,7 +117,7 @@ echo "<?php\n"."use yii\helpers\Html;";
         var id = $(this).attr('data-id');
         var $button_tr =  $(this).closest('tr');
         $.ajax({
-            url : '/<?=strtolower(StringHelper::basename($generator->modelClass))?>/delete?id='+id,
+            url : 'delete?id='+id,
             type : 'post',
             data : {
                 '_csrf-backend' : $('meta[name="csrf-token"]').attr('content')
@@ -135,3 +131,36 @@ echo "<?php\n"."use yii\helpers\Html;";
         })
     });
 </script>
+
+<?= '<?'?>php $this->beginBlock('scripts')?>
+<script src="/plugins/colorbox/jquery.colorbox-min.js"></script>
+
+<link media="screen" rel="stylesheet" href="/plugins/colorbox/colorbox.css">
+
+<script>
+    //图片预览
+    var colorbox_params = {
+        rel: 'colorbox',
+        reposition:true,
+        scalePhotos:true,
+        scrolling:false,
+        previous:'<i class="ace-icon fa fa-arrow-left"></i>',
+        next:'<i class="ace-icon fa fa-arrow-right"></i>',
+        close:'&times;',
+        current:'{current} of {total}',
+        maxWidth:'100%',
+        maxHeight:'100%',
+        onOpen:function(){
+            $overflow = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+        },
+        onClosed:function(){
+            document.body.style.overflow = $overflow;
+        },
+        onComplete:function(){
+            $.colorbox.resize();
+        }
+    };
+    $('[data-rel="colorbox"]').colorbox(colorbox_params);
+</script>
+<?= '<?'?>php $this->endBlock('scripts')?>

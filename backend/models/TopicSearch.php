@@ -5,12 +5,12 @@ namespace backend\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Activity;
+use common\models\Topic;
 
 /**
- * ActivitySearch represents the model behind the search form about `common\models\Activity`.
+ * TopicSearch represents the model behind the search form about `common\models\Topic`.
  */
-class ActivitySearch extends Activity
+class TopicSearch extends Topic
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class ActivitySearch extends Activity
     public function rules()
     {
         return [
-            [['id', 'topic_id', 'start_time', 'people_num', 'created_at', 'updated_at'], 'integer'],
-            [['cover', 'title', 'en_title'], 'safe'],
+            [['id', 'created_at', 'updated_at'], 'integer'],
+            [['cover', 'title'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class ActivitySearch extends Activity
      */
     public function search($params)
     {
-        $query = Activity::find();
+        $query = Topic::find();
 
         // add conditions that should always apply here
 
@@ -60,16 +60,12 @@ class ActivitySearch extends Activity
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'topic_id' => $this->topic_id,
-            'start_time' => $this->start_time,
-            'people_num' => $this->people_num,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'cover', $this->cover])
-            ->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'en_title', $this->en_title]);
+            ->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

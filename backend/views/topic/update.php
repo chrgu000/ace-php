@@ -1,8 +1,3 @@
-<?php
-use common\util\Constants;
-/** @var $model \common\models\Activity */
-
-?>
     <div class="main-content">
         <div class="breadcrumbs" id="breadcrumbs">
             <script type="text/javascript">
@@ -21,50 +16,22 @@ use common\util\Constants;
             <div class="row">
                 <div class="col-xs-12">
                     <form id="create-model-form" class="form-horizontal" role="form">
-                        <input type="hidden" id="activity_id" value="<?= $model->id ?>">
                         <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >活动名称:</label>
+                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >主题名称:</label>
+
                             <div class="col-xs-12 col-sm-9">
                                 <div class="clearfix">
-                                    <input type="text" name="title" value="<?= $model->title?>" class="col-xs-12 col-sm-6">
+                                    <input type="text" value="<?= $model->title?>" name="title" class="col-xs-12 col-sm-6">
                                 </div>
                             </div>
                         </div>
                         <div class="space-8"></div>
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >英文名称:</label>
-
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    <input type="text" name="en_title" value="<?= $model->en_title?>" class="col-xs-12 col-sm-6">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-8"></div>
-
-
-
-
-                        <div class="form-group">
-                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" for="email">活动开始时间:</label>
-
-                            <div class="col-xs-12 col-sm-9">
-                                <div class="clearfix">
-                                    <input name="start_time" value="<?php if($model->start_time){echo date('Y-m-d',$model->start_time);}?>" class="col-xs-12 col-sm-6 date-picker" >
-                                </div>
-                            </div>
-                        </div>
-                        <div class="space-8"></div>
-
-
-
 
                         <div class="form-group">
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" >封面:</label>
                             <div class="col-sm-9">
                                 <div class="clearfix col-sm-9">
-                                    <input multiple id="input-id"  type="file" class="file" data-preview-file-type="text" >
+                                    <input id="input-id" type="file" class="file" data-preview-file-type="text" >
                                 </div>
                             </div>
                         </div>
@@ -85,7 +52,31 @@ use common\util\Constants;
 
     </div><!-- /.main-content -->
 <?php $this->beginBlock('scripts')?>
+    <link href="/plugins/chosen/chosen.min.css" media="all" rel="stylesheet" type="text/css" >
 
+    <script src="/plugins/chosen/chosen.jquery.min.js" type="text/javascript"></script>
+    <link href="/css/fileinput.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- piexif.min.js is only needed if you wish to resize images before upload to restore exif data.
+         This must be loaded before fileinput.min.js -->
+    <!-- sortable.min.js is only needed if you wish to sort / rearrange files in initial preview.
+         This must be loaded before fileinput.min.js -->
+    <script src="/js/plugins/sortable.min.js" type="text/javascript"></script>
+    <!-- purify.min.js is only needed if you wish to purify HTML content in your preview for HTML files.
+         This must be loaded before fileinput.min.js -->
+    <script src="/js/plugins/purify.min.js" type="text/javascript"></script>
+    <!-- the main fileinput plugin file -->
+    <script src="/js/fileinput.min.js"></script>
+    <!-- bootstrap.js below is needed if you wish to zoom and view file content
+         in a larger detailed modal dialog -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- optionally if you need a theme like font awesome theme you can include
+        it as mentioned below -->
+    <script src="/themes/fa/theme.js"></script>
+    <!-- optionally if you need translation for your language then include
+        locale file as mentioned below -->
+    <script src="/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="/plugins/datetimepicker/jquery.datetimepicker.css" />
+    <script src="/plugins/datetimepicker/jquery.datetimepicker.full.min.js"></script>
     <script>
         $(".chosen-select").chosen({
             no_results_text:'没有找到你想要的',
@@ -95,51 +86,27 @@ use common\util\Constants;
         });
         $('.date-picker').datetimepicker({
             lang:'ch',
-            format : 'Y-m-d',
+            format : 'Y-m-d H:i',
             timepicker: false,
             scrollMonth:false,
             scrollTime:false,
             scrollInput:false,
         });
-        var $pic = '<?php echo $model->cover;?>';
-        var pics = $pic.split('||');
-
-        var pic = [];
-        var picConfig = [];
-        for (val in pics){
-            if(pics[val] == ''){
-                continue;
-            }
-            pic.push("<img src='" + imgUrl + pics[val] +"' data-imgSrc='"+ pics[val] +"' class='file-preview-image' alt='Desert' title='Desert' style='width:auto;height:160px;'>");
-            picConfig.push({
-                url:'/upload/file-delete',
-                extra: { "_csrf-backend" : $('meta[name="csrf-token"]').attr('content') },
-            });
-        }
-
-
         $("#input-id").fileinput({
             showCaption: false,
             maxFileSize: 1024 * 2,
             enctype:'multipart/form-data',
             browseLabel: "Pick Image",
             browseOnZoneClick : false,
+            autoReplace: true,
             uploadUrl:'/upload/index',
-            initialPreview: pic,
-            maxFileCount : 4,
-            deleteUrl : 'upload/delete-file',
-            overwriteInitial: false,
-            validateInitialCount: true,
-            msgFilesTooMany : '上传数量超过限制',
+            maxFileCount : 1,
             uploadExtraData:{
-                "type" : 2 ,
-                "_csrf-backend" : $('meta[name="csrf-token"]').attr('content'),
-            },
-            initialPreviewConfig:picConfig,
+                "type" : 1 ,
+                "_csrf-backend" : $('meta[name=csrf-token]').attr('content'),
+            }
         }).on("fileuploaded",function(event,data,previewId,index){
-            $('#'+previewId).find('img').attr('data-imgSrc',data.response.url);
-        }).on("filepredelete",function(event, key, jqXHR, data){
-            console.log('filepredelete');
+            $('#'+previewId).attr('data-imgSrc',data.response.url);
         });
         $('#submit').click(function(){
             $('#create-model-form').submit();
@@ -196,21 +163,18 @@ use common\util\Constants;
 
             submitHandler: function (form) {
                 var filePath = [];
-                $('.kv-zoom-cache').each(function() {
-                    $(this).find('img').removeAttr('data-imgSrc');
-                });
                 $('[data-imgSrc]').each(function() {
                     filePath.push($(this).attr('data-imgSrc'));
                 });
                 $('.main-content').showLoading();
                 $('#create-model-form').ajaxSubmit({
-                    url:'update?id=' + $('#activity_id').val(),
+                    url:'create',
                     dataType:'json',
                     type:'post',
                     enctype: 'multipart/form-data',
                     data : {
                         filePath: filePath,
-                        '_csrf-backend' : $('meta[name="csrf-token"]').attr('content'),
+                        '_csrf-backend':$('meta[name=csrf-token]').attr('content'),
                     },
                     error:function(result){
                         $('.main-content').hideLoading();

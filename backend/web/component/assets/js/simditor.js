@@ -2452,7 +2452,7 @@
         Simditor.prototype.opts = {
             textarea: null,
             placeholder: '',
-            defaultImage: 'images/image.png',
+            defaultImage: '/img/image.png',
             params: {},
             upload: false,
             indentWidth: 40
@@ -4445,7 +4445,7 @@
                         var $mask;
                         $img.removeData('file');
                         $img.removeClass('uploading').removeClass('loading');
-                        $img.style = "height:300px,width:auto";
+                        $img.style = "height:150px,width:auto";
                         $mask = $img.data('mask');
                         if ($mask) {
                             $mask.remove();

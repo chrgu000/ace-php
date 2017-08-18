@@ -34,8 +34,6 @@ use common\util\Utils;
                              <th>封面</th>
                              <th>标题</th>
                              <th>英文标题</th>
-                             <th>活动城市</th>
-                             <th>英文城市名称</th>
                              <th></th>
                             </tr>
                             </thead>
@@ -43,51 +41,49 @@ use common\util\Utils;
                             <tbody>
                             <?php foreach($dataProvider->getModels() as $model){ ?>
                                 <tr>
-                                <td><?=$model->id?></td>
-                                <td>
-                                    <?= Utils::renderPreviewImgs($model->cover)?>
-                                </td>
-                                <td><?=$model->title?></td>
-                                <td><?=$model->en_title?></td>
-                                <td><?=$model->location?></td>
-                                <td><?=$model->en_location?></td>
+                                    <td><?=$model->id?></td>
                                     <td>
-                                        <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
-                                            <a class="green" href="update?id=<?= $model->id?>">
-                                                <i class="icon-pencil bigger-130"></i>
-                                            </a>
-
-                                            <a class="red delete-btn" data-id="<?= $model->id?>" href="#">
-                                                <i class="icon-trash bigger-130"></i>
-                                            </a>
-                                        </div>
-
-                                        <div class="visible-xs visible-sm hidden-md hidden-lg">
-                                            <div class="inline position-relative">
-                                                <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
-                                                    <i class="icon-caret-down icon-only bigger-120"></i>
-                                                </button>
-
-                                                <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
-                                                    <li>
-                                                        <a href="update?id=<?= $model->id?>" class="tooltip-success" data-rel="tooltip" title="Edit">
-                                                        <span class="green">
-                                                            <i class="icon-edit bigger-120"></i>
-                                                        </span>
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="#" data-id="<?= $model->id?>" class="delete-btn tooltip-error" data-rel="tooltip" title="Delete">
-                                                        <span class="red">
-                                                            <i class="icon-trash bigger-120"></i>
-                                                        </span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                                        <?= Utils::renderPreviewImgs($model->cover)?>
                                     </td>
+                                    <td><?=$model->title?></td>
+                                    <td><?=$model->en_title?></td>
+                                    <td>
+                                            <div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
+                                                <a class="green" href="update?id=<?= $model->id?>">
+                                                    <i class="icon-pencil bigger-130"></i>
+                                                </a>
+
+                                                <a class="red delete-btn" data-id="<?= $model->id?>" href="#">
+                                                    <i class="icon-trash bigger-130"></i>
+                                                </a>
+                                            </div>
+
+                                            <div class="visible-xs visible-sm hidden-md hidden-lg">
+                                                <div class="inline position-relative">
+                                                    <button class="btn btn-minier btn-yellow dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="icon-caret-down icon-only bigger-120"></i>
+                                                    </button>
+
+                                                    <ul class="dropdown-menu dropdown-only-icon dropdown-yellow pull-right dropdown-caret dropdown-close">
+                                                        <li>
+                                                            <a href="update?id=<?= $model->id?>" class="tooltip-success" data-rel="tooltip" title="Edit">
+                                                            <span class="green">
+                                                                <i class="icon-edit bigger-120"></i>
+                                                            </span>
+                                                            </a>
+                                                        </li>
+
+                                                        <li>
+                                                            <a href="#" data-id="<?= $model->id?>" class="delete-btn tooltip-error" data-rel="tooltip" title="Delete">
+                                                            <span class="red">
+                                                                <i class="icon-trash bigger-120"></i>
+                                                            </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
                                 </tr>
                             <?php }?>
                             </tbody>
