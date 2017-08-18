@@ -50,11 +50,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['nickname', 'access_token', 'auth_key','password_hash'], 'required'],
-            [['type', 'gender', 'created_at', 'updated_at'], 'integer'],
+            [['type', 'gender', 'created_at', 'updated_at','age','inauguration_status','province','city'], 'integer'],
             [['nickname', 'username'], 'string', 'max' => 50],
-            [['avatar'], 'string', 'max' => 200],
+            [['avatar','school'], 'string', 'max' => 200],
             [['access_token', 'open_id', 'union_id'], 'string', 'max' => 500],
             [['password_reset_token', 'auth_key','password_hash'], 'string', 'max' => 100],
+            [['sign'],'string'],
         ];
     }
 
@@ -162,6 +163,12 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
             'id' => function(){
                 return Utils::encryptId($this->id,Constants::ENC_TYPE_USER);
             },'username','nickname','type','created_at',
+            'age',
+            'school',
+            'province',
+            'city',
+            'inauguration_status',
+            'sign',
             'step_number'=>function(){
                 $today = strtotime(date("Y-m-d"),time());
 

@@ -213,33 +213,74 @@ class UserController extends BaseController
 
 
     /**
-     * @api {post} /users/set-nickname 设置用户昵称
+     * @api {post} /users 更新当前登录用户资料
+     * @apiVersion 0.1.0
      *
      * @apiGroup user
-     * @apiParam {string} nickname 昵称
      * @apiPermission token
-     * @apiSuccessExample SuccessExample
-     *{
-     * "data": 1,
-     * "api_code": 200
-     * }
+     *
+     * @apiParam {string} nickname 昵称
+     * @apiParam {string} avatar 头像
+     * @apiParam {string} sign 签名
+     * @apiParam {string} school 学校
+     * @apiParam {string} province 省份id
+     * @apiParam {string} city 城市id
+     * @apiParam {string} inauguration_status 就职状态 0 在校 1 在职 2 其他
+     * @apiParam {string} age 年龄 0 60后 1 70后 2 80后 3 90后 4 00后
+     * @apiParam {int} gender 性别（0为女，1为男）
+     *
+     * @apiSuccessExample 范例（注：更新哪些字段就传哪些字段）
+     * 同获取当前登录用户信息
      */
     public function actionSetNickname()
     {
         $nickname = \Yii::$app->request->post('nickname', '');
-        if (empty($nickname)) {
-            throw new UserException('昵称不能为空');
-        }
-        $user = User::findOne([
-            'nickname' => $nickname
-        ]);
-        if ($user) {
-            throw new UserException('昵称已经被占用了');
-        }
+//        $user = User::findOne([
+//            'nickname' => $nickname
+//        ]);
+//        if ($user) {
+//            throw new UserException('昵称已经被占用了');
+//        }
         $user = \Yii::$app->user->identity;
-        $user->nickname = $nickname;
+        if( !empty( $nickname ) ) {
+            $user->nickname = $nickname;
+        }
+        $avatar = $this->getParam( 'avatar' );
+        if( !empty( $avatar ) ) {
+            $user->avatar = $avatar;
+        }
+        // 更改签名
+        $sign = $this->getParam( 'sign' );
+        if( isset( $sign ) ) {
+            $user->sign = $sign;
+        }
+        // 更改性别、生日
+        $gender = $this->getParam( 'gender' );
+        if( isset( $gender ) ) {
+            $user->gender = $gender;
+        }
+        $school= $this->getParam( 'school' ) ;
+        if( !empty( $school ) ) {
+            $user->school = $school;
+        }
+        $province= $this->getParam( 'province' ) ;
+        if( !empty( $province ) ) {
+            $user->province = $province;
+        }
+        $city= $this->getParam( 'city' ) ;
+        if( !empty( $city ) ) {
+            $user->city = $city;
+        }
+        $inauguration_status= $this->getParam( 'inauguration_status' ) ;
+        if( !empty( $inauguration_status ) ) {
+            $user->inauguration_status = $inauguration_status;
+        }
+        $age= $this->getParam( 'age' ) ;
+        if( !empty( $age ) ) {
+            $user->age = $age;
+        }
         if($user->save()){
-            return ['data' => 1];
+            return $user;
         }else{
             throw new UserException(implode('|',$user->getFirstErrors()));
         }

@@ -69,7 +69,7 @@ return [
                 // 昵称是否可用
                 'GET v1/users/check-nick' => 'v1/user/nickname',
                 // 设置用户昵称
-                'POST v1/users/set-nickname' => 'v1/user/set-nickname',
+                'POST v1/users' => 'v1/user/set-nickname',
                 // 用户重新设置密码
                 'POST v1/users/reset-pwd' => 'v1/user/set-password',
                 // 获取顽兔上传文件凭证
