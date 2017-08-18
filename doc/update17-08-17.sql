@@ -41,7 +41,3 @@ create table if not exists run_group_praise(
 	primary key(id)
 )engine=InnoDB default charset=utf8mb4;
 
-
-alter table user add age int unsigned not null DEFAULT 0;
-alter table user add school varchar(255);
-alter table user add inauguration_status int unsigned not null DEFAULT 0; -- 就职状态 0 在校 1 在职 2 其他
