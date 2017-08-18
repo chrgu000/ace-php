@@ -20,6 +20,7 @@ use common\service\OrderService;
 use common\util\Constants;
 use common\util\Utils;
 use yii\base\ErrorException;
+use yii\db\Exception;
 
 class ActivityController extends BaseController
 {
@@ -253,40 +254,43 @@ class ActivityController extends BaseController
         }
 
         $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $model = new Online();
+            $model->online_activity_id=$online_activity->id;
+            $model->activity_id=$activity->id;
+            $model->user_id=$user_id;
+            $model->benefit_walk=$benefit_walk;
+            $model->benefit_run=$benefit_run;
+            $model->benefit_bike=$benefit_bike;
 
-        $model=new Online();
-        $model->online_activity_id=$online_activity->id;
-        $model->activity_id=$activity->id;
-        $model->user_id=$user_id;
-        $model->benefit_walk=$benefit_walk;
-        $model->benefit_run=$benefit_run;
-        $model->benefit_bike=$benefit_bike;
+            $model->name=$name;
+            $model->mobile=$mobile;
+            $model->gender=$gender;
+            $model->address=$address;
 
-        $model->name=$name;
-        $model->mobile=$mobile;
-        $model->gender=$gender;
-        $model->address=$address;
+            if (!$model->save()){
+                throw new ErrorException('报名失败');
+            }
 
-        if (!$model->save()){
-            throw new ErrorException('报名失败');
+            $online_activity->people_num++;
+            if (!$online_activity->save()){
+                throw new ErrorException('报名人数增加失败');
+            }
+            $activity->people_num++;
+            if (!$activity->save()){
+                throw new ErrorException('报名人数增加失败');
+            }
+
+            $order = OrderService::confirm(Constants::ORDER_TYPE_ONLINE,$model->id,$user_id,$online_activity->price);
+
+            if(empty($order)){
+                throw new ErrorException('订单提交失败');
+            }
+            $transaction->commit();
+        }catch (Exception $e){
+            $transaction->rollBack();
+            throw $e;
         }
-
-        $online_activity->people_num++;
-        if (!$online_activity->save()){
-            throw new ErrorException('报名人数增加失败');
-        }
-        $activity->people_num++;
-        if (!$activity->save()){
-            throw new ErrorException('报名人数增加失败');
-        }
-
-        $order=OrderService::confirm(Constants::ORDER_TYPE_ONLINE,$model->id,$user_id,$online_activity->price);
-
-        if(empty($order)){
-            throw new ErrorException('订单提交失败');
-        }
-        $transaction->commit();
-
 
         return $order;
     }

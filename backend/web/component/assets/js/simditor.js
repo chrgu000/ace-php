@@ -4445,6 +4445,7 @@
                         var $mask;
                         $img.removeData('file');
                         $img.removeClass('uploading').removeClass('loading');
+                        $img.style = "height:300px,width:auto";
                         $mask = $img.data('mask');
                         if ($mask) {
                             $mask.remove();

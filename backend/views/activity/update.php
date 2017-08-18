@@ -106,6 +106,13 @@ use common\util\Constants;
                         </div>
 
                         <div class="form-group">
+                            <label class="control-label col-xs-12 col-sm-3 no-padding-right" >英文活动详情:</label>
+                            <div class="clearfix col-sm-9">
+                                <textarea id="editor2"  name="en_activity_detail" placeholder="" autofocus><?= $model->en_desc?></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="control-label col-xs-12 col-sm-3 no-padding-right" >封面:</label>
                             <div class="col-sm-9">
                                 <div class="clearfix col-sm-9">
@@ -134,6 +141,40 @@ use common\util\Constants;
     <script>
         var editor = new Simditor({
             textarea: $('#editor'),
+            defaultImage : '/img/image.png',
+            toolbar: [
+                'title',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'fontScale',
+                'color',
+                'ol'  ,
+                'ul',
+                'blockquote',
+                'code'   ,
+                'table',
+                'link',
+                'image',
+                'hr'    ,
+                'indent',
+                'outdent',
+                'alignment',
+            ],
+            upload: {
+                url: '/upload/sim-upload', //文件上传的接口地址
+                params: {
+                    type : 2,
+                    '_csrf-backend' : $('meta[name="csrf-token"]').attr('content'),
+                }, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                connectionCount: 3,
+                leaveConfirm: '正在上传文件',
+            },
+        });
+        var editor2 = new Simditor({
+            textarea: $('#editor2'),
+            defaultImage : '/img/image.png',
             toolbar: [
                 'title',
                 'bold',
@@ -193,6 +234,7 @@ use common\util\Constants;
                 extra: { "_csrf-backend" : $('meta[name="csrf-token"]').attr('content') },
             });
         }
+        
 
         $("#input-id").fileinput({
             showCaption: false,
